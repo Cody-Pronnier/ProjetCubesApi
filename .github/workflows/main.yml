@@ -17,10 +17,6 @@ jobs:
         run: npm install
       - name: Run test
         run: npm test
-
-  deploy:
-    needs: [build]
-    steps:
       - uses: actions/checkout@v2
       - uses: akhileshns/heroku-deploy@v3.12.12 
         with:
