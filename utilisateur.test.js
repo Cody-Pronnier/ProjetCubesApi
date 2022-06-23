@@ -27,23 +27,23 @@ describe('creation utilisateur', () => {
     //     expect(savedUser.description).toBe(userData.description);
     // });
 
-    it('insertion dun utilisateur réussie mais un champ nest pas défini', async () => {
-        const utilisateuravecchampinvalide = new UtilisateurModel({nom: 'Dylan', prenom: 'Bob', mail: 'test@demo.fr', mot_de_passe: 'testtest',  pseudo: "bobo",  });
-        const sauvegardeutilisateuravecchampinvalide = await utilisateuravecchampinvalide.save();
-        expect(sauvegardeutilisateuravecchampinvalide._id).toBeDefined();
-        expect(sauvegardeutilisateuravecchampinvalide.description).toBeUndefined();
-    });
+    // it('insertion dun utilisateur réussie mais un champ nest pas défini', async () => {
+    //     const utilisateuravecchampinvalide = new UtilisateurModel({nom: 'Dylan', prenom: 'Bob', mail: 'test@demo.fr', mot_de_passe: 'testtest',  pseudo: "bobo",  });
+    //     const sauvegardeutilisateuravecchampinvalide = await utilisateuravecchampinvalide.save();
+    //     expect(sauvegardeutilisateuravecchampinvalide._id).toBeDefined();
+    //     expect(sauvegardeutilisateuravecchampinvalide.description).toBeUndefined();
+    // });
 
-    it('création dun utilisateur avec un champ non défini mais obligatoire', async () => {
-        const utilisateuravecchampnondefinimaisobligatoire = new UtilisateurModel({nom: 'Dylan', prenom: 'Bob', mot_de_passe: 'testtest',  pseudo: "bobo"});
-        let err;
-        try {
-            const sauvegardeutilisateuravecchampnondefinimaisobligatoire = await utilisateuravecchampnondefinimaisobligatoire.save();
-            error = sauvegardeutilisateuravecchampnondefinimaisobligatoire;
-        } catch (error) {
-            err = error
-        }
-        expect(err).toBeInstanceOf(mongoose.Error.ValidationError)
-        expect(err.errors.mail).toBeDefined();
-    });  
+    // it('création dun utilisateur avec un champ non défini mais obligatoire', async () => {
+    //     const utilisateuravecchampnondefinimaisobligatoire = new UtilisateurModel({nom: 'Dylan', prenom: 'Bob', mot_de_passe: 'testtest',  pseudo: "bobo"});
+    //     let err;
+    //     try {
+    //         const sauvegardeutilisateuravecchampnondefinimaisobligatoire = await utilisateuravecchampnondefinimaisobligatoire.save();
+    //         error = sauvegardeutilisateuravecchampnondefinimaisobligatoire;
+    //     } catch (error) {
+    //         err = error
+    //     }
+    //     expect(err).toBeInstanceOf(mongoose.Error.ValidationError)
+    //     expect(err.errors.mail).toBeDefined();
+    // });  
   });
