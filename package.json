@@ -4,9 +4,9 @@
   "description": "Api de mon projet fil rouge de 3ème année de dev",
   "main": "index.js",
   "scripts": {
-    "start": "node src",
-    "test": "jest src/app.test.js"
-},
+    "dev": "nodemon index.js",
+    "test": "jest utilisateur.test.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Cody-Pronnier/ProjetCubesApi.git"
@@ -18,9 +18,14 @@
   },
   "homepage": "https://github.com/Cody-Pronnier/ProjetCubesApi#readme",
   "dependencies": {
-    "express": "^4.18.1"
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mongoose": "^6.4.0",
+    "nodemon": "^2.0.16"
   },
   "devDependencies": {
+    "@shelf/jest-mongodb": "^3.0.1",
     "jest": "^28.1.1",
     "supertest": "^6.2.3"
   }
