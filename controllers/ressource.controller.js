@@ -14,6 +14,26 @@ const ajoutRessource = async (req, res) => {
   }
 };
 
+// switch une ressource non valid à valid ou inversement
+const switchRessource = async (req, res) => {
+  const ressource = await RessourceModel.find(req.params.id, req.body);
+  if (!ressource) {
+    res.status(404).send("Ce ressource n'existe pas.");
+  }
+  try {
+    if (ressource.validation === true) {
+      ressource.validation = false;
+    } else {
+      ressource.validation = true;
+    }
+    await ressource.save();
+    res.status(201).send(ressource);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+};
+
+// Ajout ou Suppression d'un j'aime
 const reactionRessource = async (req, res) => {
   const ressource = await RessourceModel.findByIdAndUpdate(
     req.params.id,
@@ -30,13 +50,18 @@ const reactionRessource = async (req, res) => {
     });
 
     if (idexistant == null || idexistant == "") {
-      const jaime = new RessourceReactionModel({ ressource: ressource._id, utilisateur: req.utilisateur._id});
-      ressource.nb_reaction ++;
+      const jaime = new RessourceReactionModel({
+        ressource: ressource._id,
+        utilisateur: req.utilisateur._id,
+      });
+      ressource.nb_reaction++;
       await ressource.save(), jaime.save();
       res.status(200).send(ressource);
     } else {
-      const jenaimeplus = await RessourceReactionModel.findByIdAndDelete(idexistant);
-      ressource.nb_reaction --;
+      const jenaimeplus = await RessourceReactionModel.findByIdAndDelete(
+        idexistant
+      );
+      ressource.nb_reaction--;
       await ressource.save();
       res.status(200).send(ressource);
     }
@@ -48,4 +73,5 @@ const reactionRessource = async (req, res) => {
 module.exports = {
   ajoutRessource,
   reactionRessource,
+  switchRessource
 };
