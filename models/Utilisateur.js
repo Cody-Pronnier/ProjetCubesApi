@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
 const Schema = mongoose.Schema;
 
 const utilisateurSchema = new Schema({
@@ -101,4 +102,58 @@ const utilisateurSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Utilisateur", utilisateurSchema);
+utilisateurSchema.pre('save', async function (next) {
+  const utilisateur = this;
+
+  if (utilisateur.isModified('mot_de_passe')) {
+    utilisateur.mot_de_passe = await bcrypt.hash(utilisateur.mot_de_passe, 8);
+  }
+
+  next();
+});
+
+
+utilisateurSchema.methods.generateAuthToken = async function () {
+  const utilisateur = this;
+
+  const token = jwt.sign({ _id: utilisateur._id.toString() }, 'eroighaoeijgrpaojegp54546');
+  utilisateur.tokens = utilisateur.tokens.concat({ token });
+  await utilisateur.save();
+  return token;
+};
+
+
+
+utilisateurSchema.statics.findByCredentials = async (mail, mot_de_passe) => {
+  const utilisateur = await Utilisateur.findOne({ mail });
+  if (!utilisateur) {
+      throw new Error('Mauvais identifiants');
+  }
+  const compareOk= await bcrypt.compare(mot_de_passe, utilisateur.mot_de_passe);
+  if (!compareOk) {
+      throw new Error('Mauvais identifiants');
+  }
+
+  return utilisateur;
+};
+
+
+utilisateurSchema.pre('delete', async function (next) {
+  const utilisateur = this;
+  await Ressource.deleteMany({ owner: user._id });
+  next();
+});
+
+utilisateurSchema.methods.toJSON = function () {
+  const utilisateur = this;
+  const utilisateurObject = utilisateur.toObject();
+
+  delete utilisateurObject.mot_de_passe;
+  delete utilisateurObject.tokens;
+  delete utilisateurObject.image;
+
+  return utilisateurObject;
+};
+
+const Utilisateur = mongoose.model('Utilisateur', utilisateurSchema)
+module.exports = Utilisateur;

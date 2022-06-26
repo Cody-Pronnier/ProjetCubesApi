@@ -7,12 +7,38 @@ const afficherUtilisateurs = async (req, res) => {
   };
 
   const ajoutUtilisateur = async (req, res) => {
-    const user = new UtilisateurModel(req.body);
-    await user.save();
-    res.send(user);
+    const utilisateur = new UtilisateurModel(req.body);
+    await utilisateur.save();
+    res.send(utilisateur);
   };
+
+
+  const ajoutUtilisateurInscription = async (req, res) => {
+    const utilisateur = new UtilisateurModel(req.body);
+    console.log(utilisateur);
+    try {
+        await utilisateur.save();
+        const token = await utilisateur.generateAuthToken();
+        res.status(201).send({ utilisateur, token });
+    } catch (e) {
+        res.status(400).send(e);
+    }
+};
+
+const Login = async (req, res) => {
+  try {
+      const utilisateur = await UtilisateurModel.findByCredentials(req.body.mail, req.body.mot_de_passe);
+      const token = await utilisateur.generateAuthToken();
+      res.send({ utilisateur, token })
+  } catch (e) {
+      res.status(400).send()
+  }
+};
+
 
   module.exports= {
     afficherUtilisateurs,
-    ajoutUtilisateur
+    ajoutUtilisateur,
+    ajoutUtilisateurInscription,
+    Login
   };
