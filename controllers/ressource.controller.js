@@ -19,34 +19,29 @@ const reactionRessource = async (req, res) => {
     req.params.id,
     req.body
   );
-  console.log(req.utilisateur);
 
   if (!ressource) {
-    res.status(404).send("Ce ressource n'existe pas.");
-  } else {
+    return res.status(400).send("Ce ressource n'existe pas.");
+  }
+  try {
     var idexistant = await RessourceReactionModel.find({
       ressource: ressource._id,
-      utilisateur: "62a9dc084dc6033c7098a69a",
+      utilisateur: req.utilisateur._id,
     });
-    if (idexistant == null || idexistant == "") {
-      const jaime = new RessourceReactionModel({
-        _id: new mongoose.Types.ObjectId(),
-        ressource: ressource._id,
-        utilisateur: "62a9dc084dc6033c7098a69a",
-      });
-      await jaime.save();
-      ressource.nb_reaction++;
-      await ressource.save();
-      res.send(jaime, ressource);
-    } else {
-      const jenaimeplus = await RessourceReactionModel.findByIdAndDelete(
-        idexistant
-      );
 
-      ressource.nb_reaction--;
+    if (idexistant == null || idexistant == "") {
+      const jaime = new RessourceReactionModel({ ressource: ressource._id, utilisateur: req.utilisateur._id});
+      ressource.nb_reaction ++;
+      await ressource.save(), jaime.save();
+      res.status(200).send(ressource);
+    } else {
+      const jenaimeplus = await RessourceReactionModel.findByIdAndDelete(idexistant);
+      ressource.nb_reaction --;
       await ressource.save();
-      res.status(200).send(jenaimeplus, ressource);
+      res.status(200).send(ressource);
     }
+  } catch (e) {
+    res.status(400).send(e);
   }
 };
 
