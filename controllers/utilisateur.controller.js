@@ -35,10 +35,24 @@ const Login = async (req, res) => {
   }
 };
 
+const Logout = async (req, res) => {
+  try {
+      req.utilisateur.tokens = req.utilisateur.tokens.filter((token) => {
+          return token.token !== req.token;
+      })
+      await req.utilisateur.save();
+
+      res.send();
+  } catch (e) {
+      res.status(500).send();
+  }
+};
+
 
   module.exports= {
     afficherUtilisateurs,
     ajoutUtilisateur,
     ajoutUtilisateurInscription,
-    Login
+    Login,
+    Logout
   };

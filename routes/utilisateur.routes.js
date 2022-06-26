@@ -7,6 +7,7 @@ router.get("/utilisateur", auth, userController.afficherUtilisateurs);
 router.post("/utilisateur", userController.ajoutUtilisateur);
 router.post("/inscription", userController.ajoutUtilisateurInscription);
 router.post("/connexion", userController.Login);
+router.post("/deconnexion", userController.Logout);
 
 
 module.exports = router;
