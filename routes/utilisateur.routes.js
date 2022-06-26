@@ -8,6 +8,7 @@ router.post("/utilisateur", userController.ajoutUtilisateur);
 router.post("/inscription", userController.ajoutUtilisateurInscription);
 router.post("/connexion", userController.Login);
 router.post("/deconnexion", auth, userController.Logout);
+router.get("/utilisateur/profil", auth, userController.profil);
 
 
 module.exports = router;

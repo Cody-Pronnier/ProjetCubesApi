@@ -80,8 +80,8 @@ const utilisateurSchema = new Schema({
     default: false,
   },
   image: {
-    type: String,
-    required: false,
+    type: Buffer,
+    required: false
   },
   tokens: [{
     token: {
