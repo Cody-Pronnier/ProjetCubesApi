@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const RessourceSchema = new Schema({
+const ressourceSchema = new Schema({
   texte: {
     type: String,
     trim: true,
@@ -38,5 +38,5 @@ const RessourceSchema = new Schema({
   }]
 });
 
-module.exports =  mongoose.model("Ressource", ressourceSchema);
-
+const Ressource =  mongoose.model("Ressource", ressourceSchema);
+module.exports = Ressource;

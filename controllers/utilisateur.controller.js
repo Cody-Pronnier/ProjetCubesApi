@@ -52,23 +52,6 @@ const profil = async (req, res) => {
   res.send(req.utilisateur);
 };
 
-const modifierUtilisateur = async (req, res) => {
-  const updates = Object.keys(req.body)
-  const allowedUpdates = ['nom', 'prenom', 'mail', 'description']
-  const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
-
-  if (!isValidOperation) {
-      return res.status(400).send({ error: 'Changements incorrects!' })
-  }
-
-  try {
-      updates.forEach((update) => req.utilisateur[update] = req.body[update])
-      await req.utilisateur.save()
-      res.send(req.utilisateur)
-  } catch (e) {
-      res.status(400).send(e)
-  }
-};
 
 
   module.exports= {
@@ -77,6 +60,5 @@ const modifierUtilisateur = async (req, res) => {
     ajoutUtilisateurInscription,
     Login,
     Logout,
-    profil,
-    modifierUtilisateur
+    profil
   };
