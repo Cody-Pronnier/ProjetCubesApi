@@ -15,8 +15,7 @@ const auth = async (req, res, next) => {
         req.utilisateur = utilisateur
         next()
     } catch (e) {
-        // res.status(401).send({ error: 'Merci de vous authentifier.' })
-        res.redirect('/api');
+        res.status(401).send({ error: 'Merci de vous authentifier.' })
     }
 }
 
