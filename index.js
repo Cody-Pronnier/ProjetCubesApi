@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const ressourceRoute = require('./routes/ressource.routes');
 const utilisateurRoute = require('./routes/utilisateur.routes');
-
+const roleRoute = require('./routes/role.routes');
 
 // Séléction du port de lancement du serveur.
 const port = process.env.PORT || 3000;
@@ -31,6 +31,7 @@ mongoose.connect(
 // On instancie les routes
 app.use('/api', ressourceRoute);
 app.use('/api', utilisateurRoute);
+app.use('/api', roleRoute);
 
 //Vérification dans la console si tout se lance correctement
 app.listen(port, () => {

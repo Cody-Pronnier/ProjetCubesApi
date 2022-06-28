@@ -69,4 +69,5 @@ describe("creation utilisateur", () => {
     expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
     expect(err.errors.mail).toBeDefined();
   });
+
 });

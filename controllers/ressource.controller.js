@@ -1,6 +1,10 @@
 const RessourceModel = require("../models/Ressource");
 const RessourceReactionModel = require("../models/RessourceReaction");
 
+
+
+
+// Ajouter une ressource
 const ajoutRessource = async (req, res) => {
   const ressource = new RessourceModel({
     ...req.body,
@@ -12,6 +16,13 @@ const ajoutRessource = async (req, res) => {
   } catch (e) {
     res.status(400).send(e);
   }
+};
+
+// Affiche tous les ressources [OK]
+const afficherRessources = async (req, res) => {
+  const ressources = await RessourceModel.find({})
+    .populate('utilisateur');
+  res.send(ressources);
 };
 
 // switch une ressource non valid à valid ou inversement
@@ -70,8 +81,16 @@ const reactionRessource = async (req, res) => {
   }
 };
 
+// Requete pour une publication en particulier
+const afficherRessource = async (req, res) => {
+  const ressource = await RessourceModel.find({ _id: req.params.id });
+  res.send(ressource);
+};
+
 module.exports = {
   ajoutRessource,
   reactionRessource,
-  switchRessource
+  switchRessource,
+  afficherRessources,
+  afficherRessource
 };

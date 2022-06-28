@@ -2,10 +2,11 @@ const express = require ('express');
 const router = express.Router();
 const utilisateurController = require('../controllers/utilisateur.controller');
 const auth = require('../middleware/auth');
+const admin = require('../middleware/admin');
 const multer = require('multer')
 const sharp = require('sharp')
 
-router.get("/utilisateur", auth, utilisateurController.afficherUtilisateurs);
+router.get("/utilisateur",auth , utilisateurController.afficherUtilisateurs);
 router.post("/utilisateur", utilisateurController.ajoutUtilisateur);
 router.post("/inscription", utilisateurController.ajoutUtilisateurInscription);
 router.post("/connexion", utilisateurController.Login);
