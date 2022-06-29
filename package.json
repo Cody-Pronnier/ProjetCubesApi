@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon index.js",
     "test": "jest utilisateur.test.js",
-    "web": "npm start"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
