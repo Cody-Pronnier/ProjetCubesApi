@@ -87,10 +87,44 @@ const afficherRessource = async (req, res) => {
   res.send(ressource);
 };
 
+// Supprime une ressoure
+
+const supprimerRessource = async (req, res) => {
+  const ressource = await RessourceModel.findByIdAndDelete(req.params.id);
+  if (!ressource) {
+    res.status(404).send("Cette ressource n'existe pas.");
+  }
+  res.status(200).send();
+};
+
+const modifierRessource = async (req, res) => {
+  const ressource = await RessourceModel.findByIdAndUpdate(
+    req.params.id,
+    req.body
+  );
+  if (!ressource) {
+    res.status(404).send("Cette ressource n'existe pas.");
+  }
+  await ressource.save();
+  res.send(ressource);
+};
+
+const ressourcesUtilisateur = async (req, res) => {
+  const ressource = await RessourceModel.find({ _id: req.params.id })
+    .populate('utilisateur');
+  if (!ressource) {
+    res.status(404).send("");
+  }
+  res.send(ressource);
+};
+
 module.exports = {
   ajoutRessource,
   reactionRessource,
   switchRessource,
   afficherRessources,
-  afficherRessource
+  afficherRessource,
+  supprimerRessource,
+  modifierRessource,
+  ressourcesUtilisateur
 };

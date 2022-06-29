@@ -16,8 +16,42 @@ const afficherRoles = async (req, res) => {
     res.send(roles);
   };
 
+  // Affiche un role [OK]
+
+const afficherRole = async (req, res) => {
+  const role = await RoleModel.find({ _id: req.params.id });
+  res.send(role);
+};
+
+// Modifie un role [OK]
+
+const modifierRole = async (req, res) => {
+  const role = await RoleModel.findByIdAndUpdate(
+    req.params.id,
+    req.body
+  );
+  if (!role) {
+    res.status(404).send("Ce role n'existe pas.");
+  }
+  await role.save();
+  res.send(role);
+};
+
+// Supprime un ressource [OK]
+
+const supprimerRole = async (req, res) => {
+  const role = await RoleModel.findByIdAndDelete(req.params.id);
+  if (!role) {
+    res.status(404).send("Ce role n'existe pas.");
+  }
+  res.status(200).send();
+};
+
   module.exports = {
     ajoutRole,
-    afficherRoles
+    afficherRoles,
+    afficherRole,
+    modifierRole,
+    supprimerRole
   };
   

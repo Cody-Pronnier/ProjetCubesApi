@@ -12,8 +12,9 @@ router.post("/inscription", utilisateurController.ajoutUtilisateurInscription);
 router.post("/connexion", utilisateurController.Login);
 router.post("/deconnexion", auth, utilisateurController.Logout);
 router.get("/utilisateur/profil", auth, utilisateurController.profil);
-
-
+router.get("/utilisateur/:id/ressources",auth, utilisateurController.toutesRessourcesDeUtilisateur);
+router.patch("utilisateur/:id/switch", auth, utilisateurController.switchCompteUtilisateur);
+router.patch("utilisateur/:id/follow", auth, utilisateurController.follow);
 
 const upload = multer({
     limits: {
