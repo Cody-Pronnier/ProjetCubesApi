@@ -15,7 +15,6 @@ const afficherUtilisateurs = async (req, res) => {
 
   const ajoutUtilisateurInscription = async (req, res) => {
     const utilisateur = new UtilisateurModel(req.body);
-    console.log(utilisateur);
     try {
         await utilisateur.save();
         const token = await utilisateur.generateAuthToken();
@@ -24,6 +23,7 @@ const afficherUtilisateurs = async (req, res) => {
         res.status(400).send(e);
     }
 };
+
 
 const Login = async (req, res) => {
   try {
