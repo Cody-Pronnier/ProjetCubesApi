@@ -125,6 +125,24 @@ const follow = async (req, res) => {
   }
 };
 
+const modifUtilisateur = async (req, res) => {
+  const updates = Object.keys(req.body)
+  const allowedUpdates = ['pseudo', 'description', 'mail', 'mot_de_passe']
+  const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+
+  if (!isValidOperation) {
+      return res.status(400).send({ error: 'Modifications invalides!' })
+  }
+
+  try {
+      updates.forEach((update) => req.utilisateur[update] = req.body[update])
+      await req.utilisateur.save()
+      res.send(req.utilisateur)
+  } catch (e) {
+      res.status(400).send(e)
+  }
+}
+
 
 
 
@@ -138,5 +156,6 @@ const follow = async (req, res) => {
     profil,
     toutesRessourcesDeUtilisateur,
     switchCompteUtilisateur,
-    follow
+    follow,
+    modifUtilisateur
   };
