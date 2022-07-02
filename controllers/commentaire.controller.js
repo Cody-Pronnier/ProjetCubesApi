@@ -3,10 +3,14 @@ const CommentaireModel = require("../models/Commentaire");
 // Créer un commentaire [OK]
 
 const ajoutCommentaire = async (req, res) => {
-    const commentaire = new CommentaireModel(req.body);
+    const commentaire = new CommentaireModel({...req.body, ressource: req.ressource._id});
+    try {
     await commentaire.save();
-    res.send(commentaire);
-  };
+    res.status(201).send(commentaire);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+};
   
   // Affiche tous les commentaire [OK]
   
