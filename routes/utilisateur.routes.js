@@ -8,7 +8,7 @@ const sharp = require('sharp')
 
 router.get("/utilisateur",auth , utilisateurController.afficherUtilisateurs);
 router.post("/utilisateur", utilisateurController.ajoutUtilisateur);
-router.post("/inscription", utilisateurController.ajoutUtilisateurInscription);
+
 router.post("/connexion", utilisateurController.Login);
 router.post("/deconnexion", auth, utilisateurController.Logout);
 router.get("/utilisateur/profil", auth, utilisateurController.profil);
@@ -28,15 +28,18 @@ const upload = multer({
         cb(undefined, true);
     }
   });
-
-
-router.post('/utilisateur/profil/image', auth, upload.single('image'), async (req, res) => {
+  const test = async (req, res) => {
     const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
+    try {
     req.utilisateur.image = buffer
     await req.utilisateur.save()
-    res.send()
-}, (error, req, res, next) => {
-    res.status(400).send({ error: error.message })
-})
+    res.send();
+    }   catch (e) {
+    res.status(400).send(e);
+    }
+  };
+router.post('/utilisateur/profil/image', auth, upload.single('image'), test);
+router.post("/inscription", utilisateurController.ajoutUtilisateurInscription, upload.single('image'), test);
+
 
 module.exports = router;
