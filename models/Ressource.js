@@ -39,7 +39,7 @@ const ressourceSchema = new Schema({
   }],
   ressourcereaction: [{
     type: Schema.Types.ObjectId,
-    ref: "Ressourcereaction"
+    ref: "RessourceReaction"
   }]
 });
 
