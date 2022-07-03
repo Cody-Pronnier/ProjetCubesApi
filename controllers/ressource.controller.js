@@ -21,7 +21,8 @@ const ajoutRessource = async (req, res) => {
 // Affiche tous les ressources [OK]
 const afficherRessources = async (req, res) => {
   const ressources = await RessourceModel.find({})
-    .populate('utilisateur');
+    .populate('utilisateur')
+    .populate('ressourcereaction')
   res.send(ressources);
 };
 

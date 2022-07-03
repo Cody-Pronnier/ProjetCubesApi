@@ -36,6 +36,10 @@ const ressourceSchema = new Schema({
   commentaires: [{
     type: Schema.Types.ObjectId,
     ref: "Commentaire"
+  }],
+  ressourcereaction: [{
+    type: Schema.Types.ObjectId,
+    ref: "Ressourcereaction"
   }]
 });
 
