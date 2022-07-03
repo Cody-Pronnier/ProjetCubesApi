@@ -17,15 +17,15 @@ router.patch("utilisateur/:id/follow", auth, utilisateurController.follow);
 router.patch("utilisateur/:id", auth, utilisateurController.modifUtilisateur);
 
 const storage = multer.diskStorage({
-  destination : (requete, file, cb)=> {
+  destination : (req, file, cb)=> {
       cb(null, "./public")
   },
-  filename : (requete, file, cb)=> {
+  filename : (req, file, cb)=> {
       var date = new Date().toLocaleDateString();
       cb(null, date+"-"+Math.round(Math.random() * 10000)+"-"+file.originalname)
   }
 });
-const fileFilter = (requete, file, cb) =>{
+const fileFilter = (req, file, cb) =>{
   if(file.mimetype === "image/jpeg" || file.mimetype === "image/png"){
       cb(null, true)
   } else {
