@@ -148,9 +148,6 @@ utilisateurSchema.methods.toJSON = function () {
   const utilisateur = this;
   const utilisateurObject = utilisateur.toObject();
 
-  delete utilisateurObject.mot_de_passe;
-  delete utilisateurObject.tokens;
-
   return utilisateurObject;
 };
 

@@ -35,7 +35,7 @@ router.post("/test", auth,  upload.single("test"), async (req, res) => {
 }, (error, req, res, next) => {
   res.status(400).send({ error: error.message})
 });
-router.post('/utilisateur/:id/image', auth, utilisateurController.avatar);
+router.get('/utilisateur/:id/image', auth, utilisateurController.avatar);
 
 router.post("/inscription", utilisateurController.ajoutUtilisateurInscription);
 
