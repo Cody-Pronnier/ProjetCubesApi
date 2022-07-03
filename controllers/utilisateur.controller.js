@@ -1,4 +1,6 @@
 const UtilisateurModel = require('../models/Utilisateur')
+const sharp = require('sharp')
+
 
 // Affiche tous les utilisateurs
 const afficherUtilisateurs = async (req, res) => {
@@ -16,6 +18,7 @@ const afficherUtilisateurs = async (req, res) => {
   const ajoutUtilisateurInscription = async (req, res) => {
     const utilisateur = new UtilisateurModel(req.body);
     try {
+      req.utilisateur.image = await sharp(req.file.buffer).resize({ width: 50, height: 50 }).png().toBuffer()
         await utilisateur.save();
         const token = await utilisateur.generateAuthToken();
         res.status(201).send({ utilisateur, token });
@@ -143,6 +146,20 @@ const modifUtilisateur = async (req, res) => {
   }
 }
 
+const avatar = async (req, res) => {
+  try {
+      const utilisateur = await UtilisateurModel.findById(req.params.id)
+
+      if (!utilisateur || !utilisateur.image) {
+          throw new Error()
+      }
+
+      res.set('Content-Type', 'image/png')
+      res.send(utilisateur.image)
+  } catch (e) {
+      res.status(404).send()
+  }
+}
 
 
 
@@ -157,5 +174,6 @@ const modifUtilisateur = async (req, res) => {
     toutesRessourcesDeUtilisateur,
     switchCompteUtilisateur,
     follow,
-    modifUtilisateur
+    modifUtilisateur,
+    avatar
   };
