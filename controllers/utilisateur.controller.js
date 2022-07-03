@@ -1,4 +1,5 @@
 const UtilisateurModel = require('../models/Utilisateur')
+const RessourceModel = require("../models/Ressource");
 const sharp = require('sharp')
 
 
@@ -31,7 +32,9 @@ const Login = async (req, res) => {
   try {
       const utilisateur = await UtilisateurModel.findByCredentials(req.body.mail, req.body.mot_de_passe);
       const token = await utilisateur.generateAuthToken();
-      res.send({ utilisateur, token })
+      const ressource = await RessourceModel.find({ utilisateur: utilisateur._id })
+      utilisateur.ressources = ressource
+      res.send({ utilisateur, token})
   } catch (e) {
       res.status(400).send()
   }
