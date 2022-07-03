@@ -37,6 +37,6 @@ router.post("/test", auth,  upload.single("test"), async (req, res) => {
 });
 router.get('/utilisateur/:id/image', auth, utilisateurController.avatar);
 
-router.post("/inscription", utilisateurController.ajoutUtilisateurInscription);
+router.post("/inscription",upload.single("test"), utilisateurController.ajoutUtilisateurInscription);
 
 module.exports = router;
