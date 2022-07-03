@@ -16,25 +16,31 @@ router.patch("utilisateur/:id/switch", auth, utilisateurController.switchCompteU
 router.patch("utilisateur/:id/follow", auth, utilisateurController.follow);
 router.patch("utilisateur/:id", auth, utilisateurController.modifUtilisateur);
 
-const upload = multer({
-  limits: {
-      fileSize: 1000000
+const storage = multer.diskStorage({
+  destination : (requete, file, cb)=> {
+      cb(null, "./public")
   },
-  fileFilter(req, file, cb) {
-      if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-          return cb(new Error('Please upload an image'))
-      }
-
-      cb(undefined, true)
+  filename : (requete, file, cb)=> {
+      var date = new Date().toLocaleDateString();
+      cb(null, date+"-"+Math.round(Math.random() * 10000)+"-"+file.originalname)
   }
-})
-router.post("/test", auth,  upload.single("image"), async (req, res) => {
-  req.utilisateur.image = req.file.buffer
-  await req.utilisateur.save()
-  res.send()
-}, (error, req, res, next) => {
-  res.status(400).send({ error: error.message})
 });
+const fileFilter = (requete, file, cb) =>{
+  if(file.mimetype === "image/jpeg" || file.mimetype === "image/png"){
+      cb(null, true)
+  } else {
+      cb(new Error("l'image n'est pas acceptée"),false)
+  }
+}
+
+const upload = multer({
+  storage : storage,
+  limits : {
+      fileSize : 1024 * 1024 * 5
+  },
+  fileFilter : fileFilter
+})
+
 router.get('/utilisateur/:id/image', auth, utilisateurController.avatar);
 
 router.post("/inscription", upload.single("image"), utilisateurController.ajoutUtilisateurInscription);
