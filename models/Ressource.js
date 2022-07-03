@@ -8,6 +8,7 @@ const ressourceSchema = new Schema({
   },
   titre: {
     type: String,
+    required: true,
     trim: true,
   },
   date_creation: {

@@ -28,18 +28,31 @@ const upload = multer({
         cb(undefined, true);
     }
   });
-  const test = async (req, res) => {
-    const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
-    try {
-    req.utilisateur.image = buffer
-    await req.utilisateur.save()
-    res.send();
-    }   catch (e) {
-    res.status(400).send(e);
-    }
-  };
-router.post('/utilisateur/profil/image', auth, upload.single('image'), test);
-router.post("/inscription", utilisateurController.ajoutUtilisateurInscription, upload.single('image'), test);
+//   const test = async (req, res) => {
+//     const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
+//     try {
+//     req.utilisateur.image = buffer
+//     await req.utilisateur.save()
+//     res.send();
+//     }   catch (e) {
+//     res.status(400).send(e);
+//     }
+//   };
+router.post('/utilisateur/profil/image', upload.single('image'), async (req, res) => {
+  req.utilisateur.image = req.file.buffer
+  await req.utilisateur.save()
+  res.send()
+}, (error, req, res, next) => {
+  res.status(400).send({ error: error.message})
+})
 
+router.post("/inscription", utilisateurController.ajoutUtilisateurInscription, upload.single('image'), async (req, res) => {
+  const buffer = await sharp(req.file.buffer).resize({ width: 50, height: 50 }).png().toBuffer()
+  req.utilisateur.image = buffer
+  await req.utilisateur.save()
+  res.send()
+}, (error, req, res, next) => {
+  res.status(400).send({ error: error.message})
+})
 
 module.exports = router;
