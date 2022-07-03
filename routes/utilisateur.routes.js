@@ -15,7 +15,9 @@ router.get("/utilisateur/:id/ressources",auth, utilisateurController.toutesResso
 router.patch("utilisateur/:id/switch", auth, utilisateurController.switchCompteUtilisateur);
 router.patch("utilisateur/:id/follow", auth, utilisateurController.follow);
 router.patch("utilisateur/:id", auth, utilisateurController.modifUtilisateur);
-router.delete("utilisateur/:id", auth, utilisateurController.deleteUtilisateur);
+router.delete("utilisateur/:id", auth, utilisateurController.suppUtilisateur);
+
+
 const upload = multer({
   dest: 'public'})
 

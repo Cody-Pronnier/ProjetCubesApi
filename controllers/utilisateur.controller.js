@@ -163,7 +163,7 @@ const avatar = async (req, res) => {
   }
 }
 
-const deleteUtilisateur = async (req, res) => {
+const suppUtilisateur = async (req, res) => {
   try {
       await req.utilisateur.remove()
       res.send(req.utilisateur)
@@ -187,5 +187,5 @@ const deleteUtilisateur = async (req, res) => {
     follow,
     modifUtilisateur,
     avatar,
-    deleteUtilisateur
+    suppUtilisateur
   };
