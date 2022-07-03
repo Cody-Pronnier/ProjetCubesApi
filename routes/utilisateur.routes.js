@@ -28,7 +28,7 @@ const upload = multer({
       cb(undefined, true)
   }
 })
-router.post("/test", auth,  upload.single("test"), async (req, res) => {
+router.post("/test", auth,  upload.single("image"), async (req, res) => {
   req.utilisateur.image = req.file.buffer
   await req.utilisateur.save()
   res.send()
@@ -37,6 +37,6 @@ router.post("/test", auth,  upload.single("test"), async (req, res) => {
 });
 router.get('/utilisateur/:id/image', auth, utilisateurController.avatar);
 
-router.post("/inscription",upload.single("test"), utilisateurController.ajoutUtilisateurInscription);
+router.post("/inscription", upload.single("image"), utilisateurController.ajoutUtilisateurInscription);
 
 module.exports = router;
