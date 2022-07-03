@@ -15,11 +15,11 @@ const ajoutUtilisateur = async (req, res) => {
 
 const ajoutUtilisateurInscription = async (req, res) => {
   const utilisateur = new UtilisateurModel({
-    nom: requete.body.nom,
-    prenom: requete.body.prenom,
-    mot_de_passe: requete.body.mot_de_passe,
-    pseudo: requete.body.pseudo,
-    mail: requete.body.mail,
+    nom: req.body.nom,
+    prenom: req.body.prenom,
+    mot_de_passe: req.body.mot_de_passe,
+    pseudo: req.body.pseudo,
+    mail: req.body.mail,
     image: req.file.path.substring(14)
   });
   try {
