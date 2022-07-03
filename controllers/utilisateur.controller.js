@@ -15,8 +15,12 @@ const ajoutUtilisateur = async (req, res) => {
 
 const ajoutUtilisateurInscription = async (req, res) => {
   const utilisateur = new UtilisateurModel({
-    ...req.body,
-    image: req.file.path.substring(14),
+    nom: requete.body.nom,
+    prenom: requete.body.prenom,
+    mot_de_passe: requete.body.mot_de_passe,
+    pseudo: requete.body.pseudo,
+    mail: requete.body.mail,
+    image: req.file.path.substring(14)
   });
   try {
     await utilisateur.save();
