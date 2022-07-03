@@ -5,7 +5,7 @@ const CommentaireModel = require("../models/Commentaire");
 
 
 
-// Ajouter une ressource
+// Ajouter une ressource [OK]
 const ajoutRessource = async (req, res) => {
   const ressource = new RessourceModel({
     ...req.body,
@@ -23,12 +23,13 @@ const ajoutRessource = async (req, res) => {
 const afficherRessources = async (req, res) => {
   const ressources = await RessourceModel.find({})
     .populate('utilisateur')
+    .populate('commentaires')
     .populate('ressourcereaction')
   console.log(ressources)
   res.send(ressources);
 };
 
-// switch une ressource non valid à valid ou inversement
+// switch une ressource non valid à valid ou inversement [OK]
 const switchRessource = async (req, res) => {
   const ressource = await RessourceModel.find(req.params.id, req.body);
   if (!ressource) {
@@ -47,7 +48,7 @@ const switchRessource = async (req, res) => {
   }
 };
 
-// Ajout ou Suppression d'un j'aime
+// Ajout ou Suppression d'un j'aime [OK]
 const reactionRessource = async (req, res) => {
   const ressource = await RessourceModel.findByIdAndUpdate(
     req.params.id,
@@ -84,13 +85,13 @@ const reactionRessource = async (req, res) => {
   }
 };
 
-// Requete pour une publication en particulier
+// Requete pour une publication en particulier [OK]
 const afficherRessource = async (req, res) => {
   const ressource = await RessourceModel.find({ _id: req.params.id });
   res.send(ressource);
 };
 
-// Supprime une ressoure
+// Supprime une ressoure [OK]
 
 const supprimerRessource = async (req, res) => {
   const ressource = await RessourceModel.findByIdAndDelete(req.params.id);
@@ -100,6 +101,7 @@ const supprimerRessource = async (req, res) => {
   res.status(200).send();
 };
 
+// Modifier une ressoure [OK]
 const modifierRessource = async (req, res) => {
   const ressource = await RessourceModel.findByIdAndUpdate(
     req.params.id,
@@ -112,6 +114,8 @@ const modifierRessource = async (req, res) => {
   res.send(ressource);
 };
 
+
+// Afficher une ressource avec son utilisateur [OK]
 const ressourcesUtilisateur = async (req, res) => {
   const ressource = await RessourceModel.find({ _id: req.params.id })
     .populate('utilisateur');
@@ -121,12 +125,11 @@ const ressourcesUtilisateur = async (req, res) => {
   res.send(ressource);
 };
 
+// Ajout d'un commentaire à une ressource [OK]
 const ajoutCommentaire = async (req, res) => {
-  // const ressource = await RessourceModel.find({ _id: req.params.id })
   const commentaire = new CommentaireModel({...req.body, ressource: req.params.id, utilisateur: req.utilisateur._id});
   try {
   await commentaire.save();
-  console.log(commentaire);
   res.status(201).send(commentaire);
 } catch (e) {
   res.status(400).send(e);
