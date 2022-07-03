@@ -18,7 +18,7 @@ const afficherUtilisateurs = async (req, res) => {
   const ajoutUtilisateurInscription = async (req, res) => {
     const utilisateur = new UtilisateurModel(req.body);
     try {
-      req.utilisateur.image = await sharp(req.file.buffer).resize({ width: 50, height: 50 }).png().toBuffer()
+      // req.utilisateur.image = await sharp(req.file.buffer).resize({ width: 50, height: 50 }).png().toBuffer()
         await utilisateur.save();
         const token = await utilisateur.generateAuthToken();
         res.status(201).send({ utilisateur, token });
