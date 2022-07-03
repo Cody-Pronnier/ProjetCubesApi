@@ -1,5 +1,6 @@
 const RessourceModel = require("../models/Ressource");
 const RessourceReactionModel = require("../models/RessourceReaction");
+const CommentaireModel = require("../models/Commentaire");
 
 
 
@@ -120,6 +121,18 @@ const ressourcesUtilisateur = async (req, res) => {
   res.send(ressource);
 };
 
+const ajoutCommentaire = async (req, res) => {
+  // const ressource = await RessourceModel.find({ _id: req.params.id })
+  const commentaire = new CommentaireModel({...req.body, ressource: req.params.id, utilisateur: req.utilisateur._id});
+  try {
+  await commentaire.save();
+  console.log(commentaire);
+  res.status(201).send(commentaire);
+} catch (e) {
+  res.status(400).send(e);
+}
+};
+
 module.exports = {
   ajoutRessource,
   reactionRessource,
@@ -128,5 +141,6 @@ module.exports = {
   afficherRessource,
   supprimerRessource,
   modifierRessource,
-  ressourcesUtilisateur
+  ressourcesUtilisateur,
+  ajoutCommentaire
 };
