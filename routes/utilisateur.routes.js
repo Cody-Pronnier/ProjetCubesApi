@@ -11,11 +11,14 @@ router.post("/utilisateur",  utilisateurController.ajoutUtilisateur);
 router.post("/connexion", utilisateurController.Login);
 router.post("/deconnexion", auth, utilisateurController.Logout);
 router.get("/utilisateur/profil", auth, utilisateurController.profil);
+router.delete("/utilisateur/delete", auth, utilisateurController.suppresion);
+router.patch("/utilisateur/update", auth, utilisateurController.updateUtilisateur);
+
+
 router.get("/utilisateur/:id/ressources",auth, utilisateurController.toutesRessourcesDeUtilisateur);
 router.patch("utilisateur/:id/switch", auth, utilisateurController.switchCompteUtilisateur);
 router.patch("utilisateur/:id/follow", auth, utilisateurController.follow);
-router.patch("utilisateur/:id", auth, utilisateurController.modifUtilisateur);
-router.delete("utilisateur/:id", auth, utilisateurController.suppUtilisateur);
+
 
 
 const upload = multer({
