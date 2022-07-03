@@ -151,6 +151,7 @@ utilisateurSchema.methods.toJSON = function () {
   delete utilisateurObject.mot_de_passe;
   delete utilisateurObject.tokens;
 
+
   return utilisateurObject;
 };
 
