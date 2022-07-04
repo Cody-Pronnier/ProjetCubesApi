@@ -8,7 +8,6 @@ const ressourceSchema = new Schema({
   },
   titre: {
     type: String,
-    required: true,
     trim: true,
   },
   date_creation: {
@@ -21,8 +20,7 @@ const ressourceSchema = new Schema({
     default: 0
   },
   image: {
-    data: Buffer,
-    contentType: String,
+    type: String
   },
   validation: {
     type: Boolean,
