@@ -23,7 +23,7 @@ const ajoutRessource = async (req, res) => {
 const afficherRessources = async (req, res) => {
   const ressources = await RessourceModel.find({})
     .populate('utilisateur');
-  res.send({ressources});
+  res.send(ressources);
 };
 
 // switch une ressource non valid à valid ou inversement [OK]
