@@ -142,6 +142,8 @@ const avatar = async (req, res) => {
 }
 
 const profil = async (req, res) => {
+  const ressource = await RessourceModel.find({ utilisateur: req.utilisateur._id })
+  req.utilisateur.ressources = ressource
   res.send(req.utilisateur);
 };
 
