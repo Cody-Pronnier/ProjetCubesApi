@@ -10,13 +10,14 @@ const afficherUtilisateurs = async (req, res) => {
   res.send(users);
 };
 
+
 const ajoutUtilisateur = async (req, res) => {
   const utilisateur = new UtilisateurModel(req.body);
   await utilisateur.save();
   res.send(utilisateur);
 };
 
-
+// Fonction pour s'inscrire 
 const ajoutUtilisateurInscription = async (req, res) => {
   const utilisateur = new UtilisateurModel(req.body);
   try {
@@ -28,7 +29,7 @@ const ajoutUtilisateurInscription = async (req, res) => {
   }
 };
 
-
+// Fonction pour le connecter
 const Login = async (req, res) => {
   try {
     const utilisateur = await UtilisateurModel.findByCredentials(req.body.mail, req.body.mot_de_passe);
@@ -41,6 +42,8 @@ const Login = async (req, res) => {
   }
 };
 
+
+//Fonction pour se déconnecter
 const Logout = async (req, res) => {
   try {
     req.utilisateur.tokens = req.utilisateur.tokens.filter((token) => {
@@ -55,7 +58,7 @@ const Logout = async (req, res) => {
 };
 
 
-
+// Fonction qui récupère toutes les ressources d'un utilisateur
 const toutesRessourcesDeUtilisateur = async (req, res) => {
   const user = await UtilisateurModel.find({ _id: req.params.id })
     .populate('ressources');
@@ -66,8 +69,7 @@ const toutesRessourcesDeUtilisateur = async (req, res) => {
   res.send(user);
 };
 
-// switch un compte non valid à valid ou inversement
-
+// Switch un compte non valid à valid ou inversement
 const switchCompteUtilisateur = async (req, res) => {
   const user = await UtilisateurModel.findByIdAndUpdate(
     req.params.id,
@@ -86,10 +88,12 @@ const switchCompteUtilisateur = async (req, res) => {
   res.send(user);
 };
 
+
+//Fonction pour follow/unfollow un utilisateur
 const followUser = async (req, res) => {
   const utilisateur = await UtilisateurModel.findById(
-    req.params.id
-  )
+   req.params.id
+)
   if (!utilisateur) {
     res.status(404).send("Cet utilisateur n'existe pas.");
   } else {
@@ -98,29 +102,33 @@ const followUser = async (req, res) => {
       const follow = new AbonnementModel({ utilisateur: utilisateur._id, abonnement:  req.utilisateur._id });
       await follow.save();
 
+
       // ON INCREMENTE LE NOMBRE D'ABONNE
-      utilisateur.nbdabonne++;
+      utilisateur.nbdabonne ++;
       await utilisateur.save();
+
 
       // ON INCREMENT LE NOMBRE D'ABONNEMENT
       var abonnement = await UtilisateurModel.findById({ _id: req.utilisateur._id });
       abonnement.nbdabonnement++;
       await abonnement.save();
 
-      res.status(200).send();
+      res.status(200).send('Follow réussi WP');
     }else{
       // On delete l'existance de l'id
       const unfollow = await AbonnementModel.findByIdAndDelete(idexistant);
+
       //On decremante le nombre dabonné
       utilisateur.nbdabonne--;
       await utilisateur.save();
+
 
       //On decremante le nombre dabonnement
       var abonnement = await UtilisateurModel.findById(req.utilisateur);
       abonnement.nbdabonnement--;
       await abonnement.save();
 
-      res.status(200).send();
+      res.status(200).send('Unfollow réussi. Ca juge de ouf');
     }
   }
 }
@@ -147,11 +155,13 @@ const profil = async (req, res) => {
   res.send(req.utilisateur);
 };
 
+//Fonction qui supprime l'utilisateur connecté
 const suppresion = async (req, res) => {
   await req.utilisateur.remove()
   res.send(req.utilisateur);
 };
 
+//FOnction pour mettre à jouer les 4 données d'un utilisateur
 const updateUtilisateur = async (req, res) => {
   const updates = Object.keys(req.body)
   const allowedUpdates = ['pseudo', 'description', 'mail', 'mot_de_passe']
@@ -174,14 +184,12 @@ const updateUtilisateur = async (req, res) => {
 
 };
 
+//Fonction qui affiche tous les abonnés de l'utilisateur co
 const tousLesAbonnes = async (req, res) => {
   const abo = await AbonnementModel.find({ abonnement: req.utilisateur.id })
   res.send(abo);
 }
 
-const abonne = async(req, res) => {
-  console.log(req.utilisateur.id)
-}
 const affichageUtilisateur = async(req, res) => {
   const utilisateur = await UtilisateurModel.findById(req.params.id)
   res.status(200).send(utilisateur);

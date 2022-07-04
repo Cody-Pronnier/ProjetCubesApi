@@ -129,6 +129,7 @@ const ajoutCommentaire = async (req, res) => {
     const ressource = await RessourceModel.findById(req.params.id)
     ressource.commentaires = commentaire._id
     await ressource.save();
+    await commentaire.save();
     res.status(201).send(ressource);
   } catch (e) {
     res.status(400).send(e);
