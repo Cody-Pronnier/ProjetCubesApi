@@ -8,7 +8,7 @@ const sharp = require('sharp')
 
 router.get("/utilisateur",auth , utilisateurController.afficherUtilisateurs);
 router.get("/utilisateur/:id",auth , utilisateurController.affichageUtilisateur);
-router.get("/utilisateur/abonne",auth , utilisateurController.tousLesAbonnes);
+router.get("/utilisateur/abonnes",auth , utilisateurController.tousLesAbonnes);
 router.post("/utilisateur",  utilisateurController.ajoutUtilisateur);
 router.post("/connexion", utilisateurController.Login);
 router.post("/deconnexion", auth, utilisateurController.Logout);

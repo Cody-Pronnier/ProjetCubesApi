@@ -125,50 +125,6 @@ const followUser = async (req, res) => {
   }
 }
 
-// FONCTION POUR FOLLOW OU UNFOLLOW QUELQU'UN
-
-const follow = async (req, res) => {
-  console.log(req.params.id)
-  const utilisateur = await UtilisateurModel.findByIdAndUpdate(
-    req.params.id,
-    req.body
-  );
-  if (!utilisateur) {
-    res.status(404).send("Cet utilisateur n'existe pas.");
-  } else {
-    var idexistant = await AbonnementModel.find({ utilisateur: utilisateur._id, abonnement: '62a9da694dc6033c7098a68b' });
-    if (idexistant == null || idexistant == '') {
-      //ON CREE LE FOLLOW
-      const follow = new AbonnementModel({ _id: new mongoose.Types.ObjectId(), utilisateur: utilisateur._id, abonnement: '62a9da694dc6033c7098a68b' });
-      await follow.save();
-
-      // ON INCREMENTE LE NOMBRE D'ABONNE
-      utilisateur.nbdabonne++;
-      await utilisateur.save();
-
-      // ON INCREMENT LE NOMBRE D'ABONNEMENT
-      var abonnement = await UtilisateurModel.findById({ _id: '62a9da694dc6033c7098a68b' });
-      abonnement.nbdabonnement++;
-      await abonnement.save();
-
-      res.send(follow, utilisateur, abonnement);
-    } else {
-      // On delete l'existance de l'id
-      const unfollow = await AbonnementModel.findByIdAndDelete(idexistant);
-      //On decremante le nombre dabonné
-      utilisateur.nbdabonne--;
-      await utilisateur.save();
-
-      //On decremante le nombre dabonnement
-      var abonnement = await UtilisateurModel.findById({ _id: '62a9da694dc6033c7098a68b' });
-      abonnement.nbdabonnement--;
-      await abonnement.save();
-
-      res.status(200).send(unfollow, utilisateur, abonnement);
-    }
-  }
-};
-
 
 const avatar = async (req, res) => {
   try {
@@ -221,6 +177,9 @@ const tousLesAbonnes = async (req, res) => {
   res.send(abo);
 }
 
+const abonne = async(req, res) => {
+  console.log(req.utilisateur.id)
+}
 const affichageUtilisateur = async(req, res) => {
   const utilisateur = await UtilisateurModel.findById(req.params.id)
   res.status(200).send(utilisateur);
@@ -236,7 +195,6 @@ module.exports = {
   profil,
   toutesRessourcesDeUtilisateur,
   switchCompteUtilisateur,
-  follow,
   avatar,
   suppresion,
   updateUtilisateur,
