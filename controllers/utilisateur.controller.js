@@ -217,8 +217,13 @@ const updateUtilisateur = async (req, res) => {
 };
 
 const tousLesAbonnes = async (req, res) => {
-  const abo = await AbonnementModel.find({ utilisateur: req.utilisateur.id })
+  const abo = await AbonnementModel.find({ abonnement: req.utilisateur.id })
   res.send(abo);
+}
+
+const affichageUtilisateur = async(req, res) => {
+  const utilisateur = await UtilisateurModel.findById(req.params.id)
+  res.status(200).send(utilisateur);
 }
 
 
@@ -236,5 +241,6 @@ module.exports = {
   suppresion,
   updateUtilisateur,
   tousLesAbonnes,
-  followUser
+  followUser,
+  affichageUtilisateur
 };
