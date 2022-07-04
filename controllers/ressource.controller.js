@@ -2,32 +2,40 @@ const RessourceModel = require("../models/Ressource");
 const RessourceReactionModel = require("../models/RessourceReaction");
 const CommentaireModel = require("../models/Commentaire");
 
-
-
-
 // Ajouter une ressource [OK]
 const ajoutRessource = async (req, res) => {
-
-  console.log(req.file);
-  const ressource = new RessourceModel({
-   titre: req.body.titre,
-   texte: req.body.texte,
-   image: req.file.path.substring(14),
-   utilisateur: req.utilisateur._id
-  });
-  console.log(ressource)
-  try {
-    await ressource.save();
-    res.status(201).send(ressource);
-  } catch (e) {
-    res.status(400).send(e);
+  if (req.file != null) {
+    const ressource = new RessourceModel({
+      titre: req.body.titre,
+      texte: req.body.texte,
+      image: req.file.path.substring(14),
+      utilisateur: req.utilisateur._id,
+    });
+    try {
+      await ressource.save();
+      res.status(201).send(ressource);
+    } catch (e) {
+      res.status(400).send(e);
+    }
+  } else {
+    console.log(req.body);
+    const ressource = new RessourceModel({
+      ...req.body,
+      utilisateur: req.utilisateur._id,
+    });
+    console.log(ressource);
+    try {
+      await ressource.save();
+      res.status(201).send(ressource);
+    } catch (e) {
+      res.status(400).send(e);
+    }
   }
 };
 
 // Affiche tous les ressources [OK]
 const afficherRessources = async (req, res) => {
-  const ressources = await RessourceModel.find({})
-    .populate('utilisateur');
+  const ressources = await RessourceModel.find({}).populate("utilisateur");
   res.send(ressources);
 };
 
@@ -116,11 +124,11 @@ const modifierRessource = async (req, res) => {
   res.send(ressource);
 };
 
-
 // Afficher une ressource avec son utilisateur [OK]
 const ressourcesUtilisateur = async (req, res) => {
-  const ressource = await RessourceModel.find({ _id: req.params.id })
-    .populate('utilisateur');
+  const ressource = await RessourceModel.find({ _id: req.params.id }).populate(
+    "utilisateur"
+  );
   if (!ressource) {
     res.status(404).send("");
   }
@@ -129,10 +137,14 @@ const ressourcesUtilisateur = async (req, res) => {
 
 // Ajout d'un commentaire à une ressource [OK]
 const ajoutCommentaire = async (req, res) => {
-  const commentaire = new CommentaireModel({ ...req.body, ressource: req.params.id, utilisateur: req.utilisateur._id });
+  const commentaire = new CommentaireModel({
+    ...req.body,
+    ressource: req.params.id,
+    utilisateur: req.utilisateur._id,
+  });
   try {
-    const ressource = await RessourceModel.findById(req.params.id)
-    ressource.commentaires = commentaire._id
+    const ressource = await RessourceModel.findById(req.params.id);
+    ressource.commentaires = commentaire._id;
     await ressource.save();
     await commentaire.save();
     res.status(201).send(ressource);
@@ -150,5 +162,5 @@ module.exports = {
   supprimerRessource,
   modifierRessource,
   ressourcesUtilisateur,
-  ajoutCommentaire
+  ajoutCommentaire,
 };
