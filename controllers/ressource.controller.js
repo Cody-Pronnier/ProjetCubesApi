@@ -22,10 +22,7 @@ const ajoutRessource = async (req, res) => {
 // Affiche tous les ressources [OK]
 const afficherRessources = async (req, res) => {
   const ressources = await RessourceModel.find({})
-    .populate('utilisateur')
-    .populate('commentaires')
-    .populate('ressourcereaction')
-  console.log(ressources)
+    .populate('utilisateur');
   res.send(ressources);
 };
 
@@ -127,13 +124,15 @@ const ressourcesUtilisateur = async (req, res) => {
 
 // Ajout d'un commentaire à une ressource [OK]
 const ajoutCommentaire = async (req, res) => {
-  const commentaire = new CommentaireModel({...req.body, ressource: req.params.id, utilisateur: req.utilisateur._id});
+  const commentaire = new CommentaireModel({ ...req.body, ressource: req.params.id, utilisateur: req.utilisateur._id });
   try {
-  await commentaire.save();
-  res.status(201).send(commentaire);
-} catch (e) {
-  res.status(400).send(e);
-}
+    const ressource = await RessourceModel.findById(req.params.id)
+    ressource.commentaires = commentaire._id
+    await ressource.save();
+    res.status(201).send(ressource);
+  } catch (e) {
+    res.status(400).send(e);
+  }
 };
 
 module.exports = {
