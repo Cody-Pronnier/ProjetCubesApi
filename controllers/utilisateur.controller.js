@@ -166,7 +166,7 @@ const suppresion = async (req, res) => {
 //FOnction pour mettre à jouer les 4 données d'un utilisateur
 const updateUtilisateur = async (req, res) => {
   const updates = Object.keys(req.body)
-  const allowedUpdates = ['pseudo', 'description', 'mail', 'mot_de_passe']
+  const allowedUpdates = ['pseudo', 'description', 'mail', 'image']
   const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
   console.log(updates)
   console.log(allowedUpdates)
