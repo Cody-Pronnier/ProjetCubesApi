@@ -4,15 +4,7 @@ const ressourceController = require('../controllers/ressource.controller');
 const auth = require('../middleware/auth');
 const multer = require('multer')
 
-const storage = 
-multer.diskStorage({
-    destination : (req, file, cb)=> {
-        cb(null, "./public/images/")
-    },
-    filename : (req, file, cb)=> {
-        cb(null, Math.round(Math.random() * 10000)+"-"+file.originalname)
-    }
-});
+
 const fileFilter = (req, file, cb) =>{
     if(file.mimetype === "image/jpeg" || file.mimetype === "image/png"){
         cb(null, true)
@@ -22,7 +14,6 @@ const fileFilter = (req, file, cb) =>{
 }
 
 const upload = multer({
-    storage : storage,
     limits : {
         fileSize : 1024 * 1024 * 5
     },

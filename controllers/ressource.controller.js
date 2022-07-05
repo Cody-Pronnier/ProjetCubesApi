@@ -4,12 +4,11 @@ const CommentaireModel = require("../models/Commentaire");
 
 // Ajouter une ressource [OK]
 const ajoutRessource = async (req, res) => {
-  
-  if (req.file != null) {
+  console.log(req.file.buffer)
     const ressource = new RessourceModel({
       titre: req.body.titre,
       texte: req.body.texte,
-      image: req.file.path.substring(14),
+      image: req.file.buffer,
       utilisateur: req.utilisateur._id,
     });
     try {
@@ -18,18 +17,6 @@ const ajoutRessource = async (req, res) => {
     } catch (e) {
       res.status(400).send(e);
     }
-  } else {
-    const ressource = new RessourceModel({
-      ...req.body,
-      utilisateur: req.utilisateur._id,
-    });
-    try {
-      await ressource.save();
-      res.status(201).send(ressource);
-    } catch (e) {
-      res.status(400).send(e);
-    }
-  }
 };
 
 
