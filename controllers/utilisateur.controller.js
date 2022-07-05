@@ -168,18 +168,13 @@ const updateUtilisateur = async (req, res) => {
   const updates = Object.keys(req.body)
   const allowedUpdates = ['pseudo', 'description', 'mail', 'image']
   const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
-  console.log(updates)
-  console.log(allowedUpdates)
-  console.log(isValidOperation)
-
   if (!isValidOperation) {
     return res.status(400).send({ error: 'Modifications invalides!' })
   }
 
   try {
     updates.forEach((update) => req.utilisateur[update] = req.body[update])
-    const ressource = await RessourceModel.find({ utilisateur: req.utilisateur._id })
-    req.utilisateur.ressources = ressource
+    console.log(req.utilisateur);
     await req.utilisateur.save()
     res.send(req.utilisateur)
   } catch (e) {
@@ -188,15 +183,15 @@ const updateUtilisateur = async (req, res) => {
 
 };
 
-//Fonction qui affiche tous les abonnés de l'utilisateur co
-const tousLesAbonnes = async (req, res) => {
-  const abo = await AbonnementModel.find({ abonnement: req.utilisateur.id })
-  res.send(abo);
+
+const monAbonnement = async( req, res) => {
+  const abo = await AbonnementModel.find({ abonnement: req.utilisateur._id})
+  res.status(200).send(abo)
 }
 
-const tousLesAbonnement = async (req, res) => {
-  const abonnement = await AbonnementModel.find({ utilisateur: req.utilisateur.id })
-  res.send(abonnement);
+const monAbonne = async( req, res) => {
+  const abo = await AbonnementModel.find({ abonnement: req.utilisateur._id})
+  res.status(200).send(abo)
 }
 
 const affichageUtilisateur = async(req, res) => {
@@ -216,9 +211,9 @@ module.exports = {
   avatar,
   suppresion,
   updateUtilisateur,
-  tousLesAbonnes,
   followUser,
   affichageUtilisateur,
   monProfil,
-  tousLesAbonnement
+  monAbonnement,
+  monAbonne
 };

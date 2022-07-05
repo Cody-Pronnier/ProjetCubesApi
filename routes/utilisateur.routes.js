@@ -6,9 +6,9 @@ const multer = require('multer')
 
 router.get("/utilisateur",auth , utilisateurController.afficherUtilisateurs);
 router.get("/utilisateur/monprofil",auth , utilisateurController.monProfil);
+router.get("/utilisateur/abonnement",auth , utilisateurController.monAbonnement);
+router.get("/utilisateur/abonne",auth , utilisateurController.monAbonne);
 router.get("/utilisateur/:id",auth , utilisateurController.affichageUtilisateur);
-router.get("/utilisateur/abonne",auth , utilisateurController.tousLesAbonnes);
-router.get("/utilisateur/abonnement",auth , utilisateurController.tousLesAbonnement);
 router.post("/utilisateur",  utilisateurController.ajoutUtilisateur);
 router.post("/connexion", utilisateurController.Login);
 router.post("/deconnexion", auth, utilisateurController.Logout);

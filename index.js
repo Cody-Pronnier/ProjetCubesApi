@@ -6,10 +6,10 @@ const ressourceRoute = require('./routes/ressource.routes');
 const utilisateurRoute = require('./routes/utilisateur.routes');
 const commentaireRoute = require('./routes/commentaire.routes');
 const roleRoute = require('./routes/role.routes');
-
+const path = require('path')
 // Séléction du port de lancement du serveur.
 const port = process.env.PORT || 3000;
-
+const publicDirectoryPath = path.join(__dirname, '../public')
 //Lancement CORS = Partage des Ressources entre Origines Multiples. Ca permet au navigateur de vérifier que la réponse du serveur autorise ce domaine à consulter la ressource
 const corsOptions = {
   origin: "*",
