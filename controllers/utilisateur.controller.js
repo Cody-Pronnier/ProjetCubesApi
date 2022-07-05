@@ -18,7 +18,6 @@ const ajoutUtilisateur = async (req, res) => {
 
 // Fonction pour s'inscrire 
 const ajoutUtilisateurInscription = async (req, res) => {
-  console.log(req.body)
   const utilisateur = new UtilisateurModel(req.body);
   try {
     await utilisateur.save();
