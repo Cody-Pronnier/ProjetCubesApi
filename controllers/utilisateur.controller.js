@@ -194,6 +194,11 @@ const tousLesAbonnes = async (req, res) => {
   res.send(abo);
 }
 
+const tousLesAbonnement = async (req, res) => {
+  const abonnement = await AbonnementModel.find({ utilisateur: req.utilisateur.id })
+  res.send(abonnement);
+}
+
 const affichageUtilisateur = async(req, res) => {
   const utilisateur = await UtilisateurModel.findById(req.params.id)
   res.status(200).send(utilisateur);
@@ -214,5 +219,6 @@ module.exports = {
   tousLesAbonnes,
   followUser,
   affichageUtilisateur,
-  monProfil
+  monProfil,
+  tousLesAbonnement
 };
