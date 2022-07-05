@@ -200,7 +200,7 @@ const monAbonne = async( req, res) => {
 const monAbonneNoe = async( req, res) => {
   const abo = await AbonnementModel.find({ utilisateur: req.utilisateur.id})
   .populate('abonnement')
-  var tab = new Array();
+  var tab = ''
   for(i = 0; i<abo.length; i++){
 tab[i] = abo[i].abonnement
   }
