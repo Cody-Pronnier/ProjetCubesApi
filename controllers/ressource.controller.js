@@ -139,6 +139,22 @@ const ajoutCommentaire = async (req, res) => {
   }
 };
 
+const ajoutUnCommentaire = async (req, res) => {
+  const commentaire = new CommentaireModel({
+    description: req.body.description,
+    ressource: req.params.id,
+    utilisateur: req.utilisateur._id,
+  });
+
+  try {
+    await commentaire.save();
+    res.status(201).send(commentaire);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+}
+
+
 module.exports = {
   ajoutRessource,
   reactionRessource,
@@ -149,4 +165,5 @@ module.exports = {
   modifierRessource,
   ressourcesUtilisateur,
   ajoutCommentaire,
+  ajoutUnCommentaire
 };

@@ -20,11 +20,15 @@ const commentaireSchema = new Schema({
     ref: "Utilisateur",
     required: true,
   },
-  ressource: [
+  ressource: {
+    type: Schema.Types.ObjectId,
+    ref: "Ressource",
+    required: true,
+  },
+  commentaire2: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Ressource",
-      required: true,
+      ref: "Commentaire2"
     },
   ],
 });
