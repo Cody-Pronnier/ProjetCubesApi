@@ -189,10 +189,28 @@ const monAbonnement = async( req, res) => {
   res.status(200).send(abo)
 }
 
-// Fonction pour afficher les abonnés
+// Fonction pour afficher les abonnements
 const monAbonne = async( req, res) => {
   const abo = await AbonnementModel.find({ utilisateur: req.utilisateur.id})
   .populate('abonnement')
+  res.status(200).send(abo)
+}
+
+// Fonction pour afficher les abonnés
+const monAbonneNoe = async( req, res) => {
+  const abo = await AbonnementModel.find({ utilisateur: req.utilisateur.id})
+  .populate('abonnement')
+  var tab = new Array();
+  for(i = 0; i<abo.length; i++){
+tab[i] = abo[i].abonnement
+  }
+  res.status(200).send(tab)
+}
+
+// Fonction pour afficher les abonnés
+const monAbonnementNoe = async( req, res) => {
+  const abo = await AbonnementModel.find({ abonnement: req.utilisateur.id})
+  .populate('utilisateur')
   var tab = new Array();
   for(i = 0; i<abo.length; i++){
 tab[i] = abo[i].abonnement
@@ -222,5 +240,7 @@ module.exports = {
   affichageUtilisateur,
   monProfil,
   monAbonnement,
-  monAbonne
+  monAbonne,
+  monAbonneNoe,
+  monAbonnementNoe
 };

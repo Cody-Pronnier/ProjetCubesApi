@@ -8,6 +8,8 @@ router.get("/utilisateur",auth , utilisateurController.afficherUtilisateurs);
 router.get("/utilisateur/monprofil",auth , utilisateurController.monProfil);
 router.get("/utilisateur/abonnement",auth , utilisateurController.monAbonnement);
 router.get("/utilisateur/abonne",auth , utilisateurController.monAbonne);
+router.get("/utilisateur/abonnementnoe",auth , utilisateurController.monAbonnementNoe);
+router.get("/utilisateur/abonnenoe",auth , utilisateurController.monAbonneNoe);
 router.get("/utilisateur/:id",auth , utilisateurController.affichageUtilisateur);
 router.post("/utilisateur",  utilisateurController.ajoutUtilisateur);
 router.post("/connexion", utilisateurController.Login);
