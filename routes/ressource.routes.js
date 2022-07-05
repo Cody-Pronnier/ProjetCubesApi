@@ -5,23 +5,23 @@ const auth = require('../middleware/auth');
 const multer = require('multer')
 
 
-const fileFilter = (req, file, cb) =>{
-    if(file.mimetype === "image/jpeg" || file.mimetype === "image/png"){
-        cb(null, true)
-    } else {
-        cb(new Error("l'image n'est pas acceptée"),false)
-    }
-}
+// const fileFilter = (req, file, cb) =>{
+//     if(file.mimetype === "image/jpeg" || file.mimetype === "image/png"){
+//         cb(null, true)
+//     } else {
+//         cb(new Error("l'image n'est pas acceptée"),false)
+//     }
+// }
 
-const upload = multer({
-    limits : {
-        fileSize : 1024 * 1024 * 5
-    },
-    fileFilter : fileFilter
-})
+// const upload = multer({
+//     limits : {
+//         fileSize : 1024 * 1024 * 5
+//     },
+//     fileFilter : fileFilter
+// })
 
 
-router.post("/ressource", auth, upload.single("image"), ressourceController.ajoutRessource);
+router.post("/ressource", auth, ressourceController.ajoutRessource);
 router.get("/ressource", ressourceController.afficherRessources);
 router.get("/ressource/:id/utilisateur", auth, ressourceController.ressourcesUtilisateur);
 router.patch("/ressource/:id/reaction", auth, ressourceController.reactionRessource);

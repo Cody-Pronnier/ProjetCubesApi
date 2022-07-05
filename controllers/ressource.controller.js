@@ -7,7 +7,7 @@ const ajoutRessource = async (req, res) => {
     const ressource = new RessourceModel({
       titre: req.body.titre,
       texte: req.body.texte,
-      image: req.file.buffer,
+      image: req.body.image,
       utilisateur: req.utilisateur._id,
     });
     try {

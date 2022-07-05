@@ -20,7 +20,7 @@ const ressourceSchema = new Schema({
     default: 0
   },
   image: {
-    type: Buffer
+    type: String
   },
   validation: {
     type: Boolean,
