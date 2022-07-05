@@ -23,8 +23,8 @@ const storage = multer.diskStorage({
     cb(null, "../public/images")
   },
   filename : (req, file, cb)=> {
-    var date = new Date().toLocaleDateString();
-    cb(null, date+"-"+Math.round(Math.random() * 10000) + "-"+file.originalname)
+
+    cb(null, "-"+Math.round(Math.random() * 10000) + "-"+file.originalname)
   }
 })
 
