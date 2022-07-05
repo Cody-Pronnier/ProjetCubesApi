@@ -185,12 +185,14 @@ const updateUtilisateur = async (req, res) => {
 
 
 const monAbonnement = async( req, res) => {
-  const abo = await AbonnementModel.find({ abonnement: req.utilisateur._id})
+  console.log(req.utilisateur);
+  const abo = await AbonnementModel.find({ abonnement: req.utilisateur.id})
+  console.log(abo);
   res.status(200).send(abo)
 }
 
 const monAbonne = async( req, res) => {
-  const abo = await AbonnementModel.find({ abonnement: req.utilisateur._id})
+  const abo = await AbonnementModel.find({ utilisateur: req.utilisateur.id})
   res.status(200).send(abo)
 }
 
