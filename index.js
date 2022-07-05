@@ -19,6 +19,8 @@ const corsOptions = {
 
 // On met en place les paramètres du serveur Node
 const app = express();
+app.use(express.static('public')); 
+app.use('/images', express.static('images'));
 app.use(cors(corsOptions));
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
