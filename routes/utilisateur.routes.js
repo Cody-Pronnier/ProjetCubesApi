@@ -5,12 +5,12 @@ const auth = require('../middleware/auth');
 const multer = require('multer')
 
 router.get("/utilisateur",auth , utilisateurController.afficherUtilisateurs);
+router.get("/utilisateur/monprofil",auth , utilisateurController.monProfil);
 router.get("/utilisateur/:id",auth , utilisateurController.affichageUtilisateur);
 router.get("/utilisateur/abonne",auth , utilisateurController.tousLesAbonnes);
 router.post("/utilisateur",  utilisateurController.ajoutUtilisateur);
 router.post("/connexion", utilisateurController.Login);
 router.post("/deconnexion", auth, utilisateurController.Logout);
-router.get("/utilisateur/profil", auth, utilisateurController.profil);
 router.delete("/utilisateur/delete", auth, utilisateurController.suppresion);
 router.patch("/utilisateur/update", auth, utilisateurController.updateUtilisateur);
 router.patch("/utilisateur/follow/:id", auth, utilisateurController.followUser);

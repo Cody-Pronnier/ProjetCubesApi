@@ -4,12 +4,12 @@ const ressourceController = require('../controllers/ressource.controller');
 const auth = require('../middleware/auth');
 const multer = require('multer')
 
-const storage = multer.diskStorage({
+const storage = 
+multer.diskStorage({
     destination : (req, file, cb)=> {
         cb(null, "./public/images/")
     },
     filename : (req, file, cb)=> {
-        var date = new Date().toLocaleDateString();
         cb(null, Math.round(Math.random() * 10000)+"-"+file.originalname)
     }
 });

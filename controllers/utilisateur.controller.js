@@ -155,6 +155,11 @@ const profil = async (req, res) => {
   res.send(req.utilisateur);
 };
 
+const monProfil = async( req, res) => {
+  const ressource = await RessourceModel.find({ utilisateur: req.utilisateur._id})
+  res.status(200).send(ressource)
+}
+
 //Fonction qui supprime l'utilisateur connecté
 const suppresion = async (req, res) => {
   await req.utilisateur.remove()
@@ -210,5 +215,6 @@ module.exports = {
   updateUtilisateur,
   tousLesAbonnes,
   followUser,
-  affichageUtilisateur
+  affichageUtilisateur,
+  monProfil
 };
