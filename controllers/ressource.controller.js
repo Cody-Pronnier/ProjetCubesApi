@@ -4,7 +4,6 @@ const CommentaireModel = require("../models/Commentaire");
 
 // Ajouter une ressource [OK]
 const ajoutRessource = async (req, res) => {
-  console.log(req.file.buffer)
     const ressource = new RessourceModel({
       titre: req.body.titre,
       texte: req.body.texte,
