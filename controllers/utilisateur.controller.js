@@ -181,6 +181,9 @@ const updateUtilisateur = async (req, res) => {
 
   try {
     updates.forEach((update) => req.utilisateur[update] = req.body[update])
+    const ressource = await RessourceModel.find({ utilisateur: req.utilisateur._id })
+    req.utilisateur.ressources = ressource
+    res.send(req.utilisateur);
     await req.utilisateur.save()
     res.send(req.utilisateur)
   } catch (e) {

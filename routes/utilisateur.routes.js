@@ -18,35 +18,7 @@ router.patch("/utilisateur/follow/:id", auth, utilisateurController.followUser);
 router.get("/utilisateur/:id/ressources",auth, utilisateurController.toutesRessourcesDeUtilisateur);
 router.patch("utilisateur/:id/switch", auth, utilisateurController.switchCompteUtilisateur);
 
-const storage = 
-multer.diskStorage({
-    destination : (req, file, cb)=> {
-        cb(null, "./public/images/")
-    },
-    filename : (req, file, cb)=> {
-        cb(null, Math.round(Math.random() * 10000)+"-"+file.originalname)
-    }
-});
-const fileFilter = (req, file, cb) =>{
-    if(file.mimetype === "image/jpeg" || file.mimetype === "image/png"){
-        cb(null, true)
-    } else {
-        cb(new Error("l'image n'est pas acceptée"),false)
-    }
-}
 
-const upload = multer({
-    storage : storage,
-    limits : {
-        fileSize : 1024 * 1024 * 5
-    },
-    fileFilter : fileFilter
-})
-
-
-router.post("/test",  upload.single("test"), (req, res) => {
-  res.send
-});
 router.post('/utilisateur/:id/image', auth, utilisateurController.avatar);
 
 router.post("/inscription", utilisateurController.ajoutUtilisateurInscription);
