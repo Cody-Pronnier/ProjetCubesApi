@@ -7,16 +7,13 @@ const mongoose = require("mongoose");
 // Ajouter une ressource [OK]
 const ajoutRessource = async (req, res) => {
   const ressource = new RessourceModel({
-    _id: new mongoose.Types.ObjectId(),
     titre: req.body.titre,
     texte: req.body.texte,
     image: req.body.image,
     utilisateur: req.utilisateur._id,
   })
-  req.utilisateur.ressources = ressource._id;
   try {
     await ressource.save();
-    console.log("test");
     res.status(201).send(ressource);
   } catch (e) {
     res.status(400).send(e);
