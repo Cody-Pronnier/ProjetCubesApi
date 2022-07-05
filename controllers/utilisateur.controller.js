@@ -198,24 +198,20 @@ const monAbonne = async( req, res) => {
 
 // Fonction pour afficher les abonnés
 const monAbonneNoe = async( req, res) => {
-  const abo = await AbonnementModel.find({ utilisateur: req.utilisateur.id})
+  const abo = await AbonnementModel.find({ utilisateur: req.utilisateur.id}, '-_id -utilisateur -__v')
   .populate('abonnement')
-  var tab = ''
-  for(i = 0; i<abo.length; i++){
-tab[i] = abo[i].abonnement
-  }
-  res.status(200).send(tab)
+  res.status(200).send(abo)
 }
 
 // Fonction pour afficher les abonnés
 const monAbonnementNoe = async( req, res) => {
-  const abo = await AbonnementModel.find({ abonnement: req.utilisateur.id})
+  const abo = await AbonnementModel.find({ abonnement: req.utilisateur.id })
   .populate('utilisateur')
   var tab = new Array();
   for(i = 0; i<abo.length; i++){
 tab[i] = abo[i].utilisateur
   }
-  res.status(200).send(tab)
+  res.status(200).send(abo)
 }
 
 // Fonction pour afficher les données d'un utilisateur

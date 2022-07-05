@@ -6,10 +6,10 @@ const abonnementSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "Utilisateur"
     },
-    abonnement: [{
+    abonnement: {
       type: Schema.Types.ObjectId,
       ref: "Utilisateur"
-    }]
+    }
   });
   
 const AbonnementModel = mongoose.model("Abonnement", abonnementSchema);
