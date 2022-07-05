@@ -213,7 +213,7 @@ const monAbonnementNoe = async( req, res) => {
   .populate('utilisateur')
   var tab = new Array();
   for(i = 0; i<abo.length; i++){
-tab[i] = abo[i].abonnement
+tab[i] = abo[i].utilisateur
   }
   res.status(200).send(tab)
 }
