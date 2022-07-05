@@ -2,6 +2,7 @@ const RessourceModel = require("../models/Ressource");
 const UtilisateurModel = require("../models/Utilisateur");
 const RessourceReactionModel = require("../models/RessourceReaction");
 const CommentaireModel = require("../models/Commentaire");
+const mongoose = require("mongoose");
 
 // Ajouter une ressource [OK]
 const ajoutRessource = async (req, res) => {
