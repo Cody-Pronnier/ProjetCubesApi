@@ -2,7 +2,7 @@ const express = require ('express');
 const router = express.Router();
 const utilisateurController = require('../controllers/utilisateur.controller');
 const auth = require('../middleware/auth');
-const multer = require('multer')
+const admin = require('../middleware/admin');
 
 router.get("/utilisateur",auth , utilisateurController.afficherUtilisateurs);
 router.get("/utilisateur/monprofil",auth , utilisateurController.monProfil);

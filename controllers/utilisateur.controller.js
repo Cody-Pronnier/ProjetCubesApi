@@ -1,7 +1,6 @@
 const UtilisateurModel = require('../models/Utilisateur')
 const RessourceModel = require("../models/Ressource");
 const AbonnementModel = require("../models/Abonnement");
-const sharp = require('sharp')
 
 
 // Affiche tous les utilisateurs
@@ -26,7 +25,7 @@ const ajoutUtilisateurInscription = async (req, res) => {
     const token = await utilisateur.generateAuthToken();
     res.status(201).send({ utilisateur, token });
   } catch (e) {
-    res.status(400).send(e);
+    res.status(400).send("Erreur dans la fonction inscription");
   }
 };
 
@@ -54,7 +53,7 @@ const Logout = async (req, res) => {
 
     res.send();
   } catch (e) {
-    res.status(500).send();
+    res.status(500).send("Echec de déconnexion");
   }
 };
 
@@ -150,7 +149,7 @@ const avatar = async (req, res) => {
   }
 }
 
-
+// Afficher mon profil
 const monProfil = async( req, res) => {
   const ressource = await RessourceModel.find({ utilisateur: req.utilisateur._id})
   req.utilisateur.ressources = ressource
@@ -178,24 +177,30 @@ const updateUtilisateur = async (req, res) => {
     await req.utilisateur.save()
     res.send(req.utilisateur)
   } catch (e) {
-    res.status(400).send(e)
+    res.status(400).send("Echec d'update des données")
   }
 
 };
 
-
+// Fonction pour afficher les abonnements
 const monAbonnement = async( req, res) => {
   const abo = await AbonnementModel.find({ abonnement: req.utilisateur.id})
   .populate('utilisateur')
   res.status(200).send(abo)
 }
 
+// Fonction pour afficher les abonnés
 const monAbonne = async( req, res) => {
   const abo = await AbonnementModel.find({ utilisateur: req.utilisateur.id})
   .populate('abonnement')
-  res.status(200).send(abo)
+  var tab = new Array();
+  for(i = 0; i<abo.length; i++){
+tab[i] = abo[i].abonnement
+  }
+  res.status(200).send(tab)
 }
 
+// Fonction pour afficher les données d'un utilisateur
 const affichageUtilisateur = async(req, res) => {
   const utilisateur = await UtilisateurModel.findById(req.params.id)
   res.status(200).send(utilisateur);
