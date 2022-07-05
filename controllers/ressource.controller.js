@@ -6,6 +6,7 @@ const CommentaireModel = require("../models/Commentaire");
 // Ajouter une ressource [OK]
 const ajoutRessource = async (req, res) => {
   const ressource = new RessourceModel({
+    _id: new mongoose.Types.ObjectId(),
     titre: req.body.titre,
     texte: req.body.texte,
     image: req.body.image,
