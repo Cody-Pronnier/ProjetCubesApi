@@ -185,14 +185,14 @@ const updateUtilisateur = async (req, res) => {
 
 
 const monAbonnement = async( req, res) => {
-  console.log(req.utilisateur);
   const abo = await AbonnementModel.find({ abonnement: req.utilisateur.id})
-  console.log(abo);
+  .populate('utilisateur')
   res.status(200).send(abo)
 }
 
 const monAbonne = async( req, res) => {
   const abo = await AbonnementModel.find({ utilisateur: req.utilisateur.id})
+  .populate('utilisateur')
   res.status(200).send(abo)
 }
 
