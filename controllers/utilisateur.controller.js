@@ -186,7 +186,7 @@ const updateUtilisateur = async (req, res) => {
 
 const monAbonnement = async( req, res) => {
   const abo = await AbonnementModel.find({ abonnement: req.utilisateur.id})
-  .populate('utilisateur')
+  .populate('abonnement')
   res.status(200).send(abo)
 }
 
