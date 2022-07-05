@@ -1,23 +1,25 @@
 const RessourceModel = require("../models/Ressource");
+const UtilisateurModel = require("../models/Utilisateur");
 const RessourceReactionModel = require("../models/RessourceReaction");
 const CommentaireModel = require("../models/Commentaire");
 
 // Ajouter une ressource [OK]
 const ajoutRessource = async (req, res) => {
-    const ressource = new RessourceModel({
-      titre: req.body.titre,
-      texte: req.body.texte,
-      image: req.body.image,
-      utilisateur: req.utilisateur._id,
-    });
-    try {
-      await ressource.save();
-      res.status(201).send(ressource);
-    } catch (e) {
-      res.status(400).send(e);
-    }
+  const ressource = new RessourceModel({
+    titre: req.body.titre,
+    texte: req.body.texte,
+    image: req.body.image,
+    utilisateur: req.utilisateur._id,
+  })
+  req.utilisateur.ressources = ressource._id;
+  try {
+    await ressource.save();
+    console.log("test");
+    res.status(201).send(ressource);
+  } catch (e) {
+    res.status(400).send(e);
+  }
 };
-
 
 // Affiche tous les ressources [OK]
 const afficherRessources = async (req, res) => {
@@ -152,8 +154,7 @@ const ajoutUnCommentaire = async (req, res) => {
   } catch (e) {
     res.status(400).send(e);
   }
-}
-
+};
 
 module.exports = {
   ajoutRessource,
@@ -165,5 +166,5 @@ module.exports = {
   modifierRessource,
   ressourcesUtilisateur,
   ajoutCommentaire,
-  ajoutUnCommentaire
+  ajoutUnCommentaire,
 };
