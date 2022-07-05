@@ -19,6 +19,7 @@ const ajoutUtilisateur = async (req, res) => {
 
 // Fonction pour s'inscrire 
 const ajoutUtilisateurInscription = async (req, res) => {
+  console.log(req.body)
   const utilisateur = new UtilisateurModel(req.body);
   try {
     await utilisateur.save();
@@ -149,15 +150,11 @@ const avatar = async (req, res) => {
   }
 }
 
-const profil = async (req, res) => {
-  const ressource = await RessourceModel.find({ utilisateur: req.utilisateur._id })
-  req.utilisateur.ressources = ressource
-  res.send(req.utilisateur);
-};
 
 const monProfil = async( req, res) => {
   const ressource = await RessourceModel.find({ utilisateur: req.utilisateur._id})
-  res.status(200).send(ressource)
+  req.utilisateur.ressources = ressource
+  res.status(200).send(req.utilisateur)
 }
 
 //Fonction qui supprime l'utilisateur connecté
@@ -209,7 +206,6 @@ module.exports = {
   ajoutUtilisateurInscription,
   Login,
   Logout,
-  profil,
   toutesRessourcesDeUtilisateur,
   switchCompteUtilisateur,
   avatar,
