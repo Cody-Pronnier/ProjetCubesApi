@@ -23,8 +23,8 @@ const ajoutRessource = async (req, res) => {
 // Affiche tous les ressources [OK]
 const afficherRessources = async (req, res) => {
   const ressources = await RessourceModel.find({})
-  .populate("utilisateur")
   .populate("commentaires")
+  .populate("utilisateur")
   res.send(ressources);
 };
 
@@ -126,7 +126,9 @@ const ressourcesUtilisateur = async (req, res) => {
 
 // Ajout d'un commentaire à une ressource [OK]
 const ajoutCommentaire = async (req, res) => {
-  const com = await new CommentaireModel({...req.body,
+  req
+  const com = await new CommentaireModel({
+    
     utilisateur: req.utilisateur._id,
     ressource: req.params.id
   })
