@@ -77,7 +77,7 @@ const utilisateurSchema = new Schema({
   },
   compte_actif: {
     type: Boolean,
-    default: false,
+    default: true,
   },
   image: {
     type: String,
