@@ -124,36 +124,16 @@ const ressourcesUtilisateur = async (req, res) => {
 
 // Ajout d'un commentaire à une ressource [OK]
 const ajoutCommentaire = async (req, res) => {
-  const commentaire = new CommentaireModel({
-    ...req.body,
-    ressource: req.params.id,
-    utilisateur: req.utilisateur._id,
-  });
-  try {
-    const ressource = await RessourceModel.findById(req.params.id);
-    ressource.commentaires = commentaire._id;
-    await ressource.save();
-    await commentaire.save();
-    res.status(201).send(ressource);
-  } catch (e) {
-    res.status(400).send(e);
-  }
+   const ressource = await RessourceModel.findById(req.params.id)
+   const utilisateur = req.utilisateur.id
+   const commentaire = req.body
+   ressource.commentaires[Utilisateur] = req.utilisateur.id
+   ressource.commentaires[content] = req.body
+   console.log(ressource.commentaires[content])
+   console.log(ressource.commentaires[Utilisateur])
+res.status(200).send(commentaire);
 };
 
-const ajoutUnCommentaire = async (req, res) => {
-  const commentaire = new CommentaireModel({
-    description: req.body.description,
-    ressource: req.params.id,
-    utilisateur: req.utilisateur._id,
-  });
-
-  try {
-    await commentaire.save();
-    res.status(201).send(commentaire);
-  } catch (e) {
-    res.status(400).send(e);
-  }
-};
 
 module.exports = {
   ajoutRessource,
@@ -164,6 +144,5 @@ module.exports = {
   supprimerRessource,
   modifierRessource,
   ressourcesUtilisateur,
-  ajoutCommentaire,
-  ajoutUnCommentaire,
+  ajoutCommentaire
 };

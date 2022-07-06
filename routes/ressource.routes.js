@@ -11,6 +11,6 @@ router.patch("/ressource/:id/switch", auth, ressourceController.switchRessource)
 router.patch("/ressource/:id", auth, ressourceController.modifierRessource);
 router.delete("/ressource/:id", auth, ressourceController.supprimerRessource);
 router.post("/ressource/:id/commentaire", auth, ressourceController.ajoutCommentaire);
-router.post("/ressource/:id/commentaires", auth, ressourceController.ajoutUnCommentaire);
+
 
 module.exports = router;

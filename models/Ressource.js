@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const ressourceSchema = new mongoose.Schema({
+const ressourceSchema = new Schema({
   texte: {
     type: String,
     trim: true,
@@ -16,33 +17,30 @@ const ressourceSchema = new mongoose.Schema({
   },
   nb_reaction: {
     type: Number,
-    default: 0,
+    default: 0
   },
   image: {
-    type: String,
+    type: String
   },
   validation: {
     type: Boolean,
     default: true,
   },
   utilisateur: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "Utilisateur",
-    required: true,
+    required: true
   },
-  commentaires: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Commentaire",
-    },
-  ],
-  ressourcereaction: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "RessourceReaction",
-    },
-  ],
+  commentaires: [{
+    type: Schema.Types.ObjectId,
+    ref: "Utilisateur", 
+    content: String
+  }],
+  ressourcereaction: [{
+    type: Schema.Types.ObjectId,
+    ref: "RessourceReaction"
+  }]
 });
 
-const Ressource = mongoose.model("Ressource", ressourceSchema);
+const Ressource =  mongoose.model("Ressource", ressourceSchema);
 module.exports = Ressource;
