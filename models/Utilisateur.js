@@ -93,7 +93,7 @@ const utilisateurSchema = new Schema({
   role: {
     type: Schema.Types.ObjectId,
     ref: "Role",
-    default: "623b03b7b994734c2c18628f",
+    default: "62c58a42a04b6b5dedcc491e",
   },
   ressources: [{
     type: Schema.Types.ObjectId,
