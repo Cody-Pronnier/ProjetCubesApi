@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const commentaireSchema = new Schema({
+const reponseSchema = new Schema({
   description: {
     type: String,
     trim: true,
@@ -20,16 +20,12 @@ const commentaireSchema = new Schema({
     ref: "Utilisateur",
     required: true,
   },
-  ressource: {
+  commentaire: {
     type: Schema.Types.ObjectId,
-    ref: "Ressource",
+    ref: "Commentaire",
     required: true,
-  },
-  reponses: [{
-      type: Schema.Types.ObjectId,
-      ref: "Reponse"
-    }],
+  }
 });
 
-const CommentaireModel = mongoose.model("Commentaire", commentaireSchema);
-module.exports = CommentaireModel;
+const ReponseModel = mongoose.model("Reponse", reponseSchema);
+module.exports = ReponseModel;

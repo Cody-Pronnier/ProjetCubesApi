@@ -94,13 +94,12 @@ const utilisateurSchema = new Schema({
     ref: "Role",
     default: "623b03b7b994734c2c18628f",
   },
+  ressources: [{
+    type: Schema.Types.ObjectId,
+    ref: "Ressource"
+  }]
 })
 
-utilisateurSchema.virtual("ressources", {
-  ref: "Ressource",
-  localField: "_id",
-  foreignField: "utilisateur"
-})
 
 utilisateurSchema.pre('save', async function (next) {
   const utilisateur = this;

@@ -2,6 +2,7 @@ const RessourceModel = require("../models/Ressource");
 const UtilisateurModel = require("../models/Utilisateur");
 const RessourceReactionModel = require("../models/RessourceReaction");
 const CommentaireModel = require("../models/Commentaire");
+const ReponseModel = require("../models/Reponse");
 const mongoose = require("mongoose");
 
 // Ajouter une ressource [OK]
@@ -12,7 +13,16 @@ const ajoutRessource = async (req, res) => {
     image: req.body.image,
     utilisateur: req.utilisateur._id,
   })
+
+  const utilisateur = await UtilisateurModel.findById(req.utilisateur.id)
+  const num = utilisateur.ressources.length + 1
+  for(i = 0; i< num ; i++ ){
+    if(i == (num-1)){
+      utilisateur.ressources[i] = ressource._id
+    }
+  }
   try {
+    await utilisateur.save();
     await ressource.save();
     res.status(201).send(ressource);
   } catch (e) {
@@ -20,9 +30,12 @@ const ajoutRessource = async (req, res) => {
   }
 };
 
+
 // Affiche tous les ressources [OK]
 const afficherRessources = async (req, res) => {
-  const ressources = await RessourceModel.find({}).populate("utilisateur");
+  const ressources = await RessourceModel.find({})
+  .populate("commentaires")
+  .populate("utilisateur")
   res.send(ressources);
 };
 
@@ -124,14 +137,50 @@ const ressourcesUtilisateur = async (req, res) => {
 
 // Ajout d'un commentaire à une ressource [OK]
 const ajoutCommentaire = async (req, res) => {
-   const ressource = await RessourceModel.findById(req.params.id)
-   const utilisateur = req.utilisateur.id
-   const commentaire = req.body
-   ressource.commentaires[Utilisateur] = req.utilisateur.id
-   ressource.commentaires[content] = req.body
-   console.log(ressource.commentaires[content])
-   console.log(ressource.commentaires[Utilisateur])
-res.status(200).send(commentaire);
+  const com = await new CommentaireModel({
+    description: req.body.description,
+    utilisateur: req.utilisateur._id,
+    ressource: req.params.id
+  })
+  const ressource = await RessourceModel.findById(req.params.id)
+  const utilisateur = req.utilisateur.id
+  const num = ressource.commentaires.length + 1
+  for(i = 0; i< num ; i++ ){
+    if(i == (num-1)){
+      ressource.commentaires[i] = com._id
+    }
+  }
+  try {
+    await ressource.save();
+    await com.save();
+    res.status(201).send(ressource);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+};
+
+// Ajout d'un commentaire à une ressource [OK]
+const ajoutReponse = async (req, res) => {
+  const reponse = await new ReponseModel({
+    description: req.body.description,
+    utilisateur: req.utilisateur._id,
+    commentaire: req.params.id
+  })
+  const commentaire = await CommentaireModel.findById(req.params.id)
+  const utilisateur = req.utilisateur.id
+  const num = commentaire.reponses.length + 1
+  for(i = 0; i< num ; i++ ){
+    if(i == (num-1)){
+      commentaire.reponses[i] = reponse._id
+    }
+  }
+  try {
+    await commentaire.save();
+    await reponse.save();
+    res.status(201).send(commentaire);
+  } catch (e) {
+    res.status(400).send(e);
+  }
 };
 
 
@@ -144,5 +193,6 @@ module.exports = {
   supprimerRessource,
   modifierRessource,
   ressourcesUtilisateur,
-  ajoutCommentaire
+  ajoutCommentaire,
+  ajoutReponse
 };
