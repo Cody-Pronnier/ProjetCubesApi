@@ -10,7 +10,7 @@ const admin = async (req, res, next) => {
         if (!utilisateur) {
             throw new Error()
         }
-      if(utilisateur.role._id == "62b8afecba94341d8b6ee377") {
+      if(utilisateur.role._id == "62c58a5ba04b6b5dedcc4924") {
         next();
       } else {
         res.status(401).send({ error: "Vous n'avez pas les droits pour accèder à cette ressource." });
