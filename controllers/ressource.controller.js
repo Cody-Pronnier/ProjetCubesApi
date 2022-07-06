@@ -2,6 +2,7 @@ const RessourceModel = require("../models/Ressource");
 const UtilisateurModel = require("../models/Utilisateur");
 const RessourceReactionModel = require("../models/RessourceReaction");
 const CommentaireModel = require("../models/Commentaire");
+const ReponseModel = require("../models/Reponse");
 const mongoose = require("mongoose");
 
 // Ajouter une ressource [OK]
@@ -136,9 +137,8 @@ const ressourcesUtilisateur = async (req, res) => {
 
 // Ajout d'un commentaire à une ressource [OK]
 const ajoutCommentaire = async (req, res) => {
-  req
   const com = await new CommentaireModel({
-
+    description: req.body.description,
     utilisateur: req.utilisateur._id,
     ressource: req.params.id
   })
@@ -159,6 +159,30 @@ const ajoutCommentaire = async (req, res) => {
   }
 };
 
+// Ajout d'un commentaire à une ressource [OK]
+const ajoutReponse = async (req, res) => {
+  const reponse = await new ReponseModel({
+    description: req.body.description,
+    utilisateur: req.utilisateur._id,
+    commentaire: req.params.id
+  })
+  const commentaire = await CommentaireModel.findById(req.params.id)
+  const utilisateur = req.utilisateur.id
+  const num = commentaire.reponses.length + 1
+  for(i = 0; i< num ; i++ ){
+    if(i == (num-1)){
+      commentaire.reponses[i] = reponse._id
+    }
+  }
+  try {
+    await commentaire.save();
+    await reponse.save();
+    res.status(201).send(commentaire);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+};
+
 
 module.exports = {
   ajoutRessource,
@@ -169,5 +193,6 @@ module.exports = {
   supprimerRessource,
   modifierRessource,
   ressourcesUtilisateur,
-  ajoutCommentaire
+  ajoutCommentaire,
+  ajoutReponse
 };
