@@ -34,10 +34,11 @@ const ajoutRessource = async (req, res) => {
 // Affiche tous les ressources [OK]
 const afficherRessources = async (req, res) => {
   const ressources = await RessourceModel.find({})
-  .populate("commentaires")
+  .populate({ path: "commentaires", populate: { path:"utilisateur" }})
   .populate("utilisateur")
   res.send(ressources);
 };
+
 
 // switch une ressource non valid à valid ou inversement [OK]
 const switchRessource = async (req, res) => {
