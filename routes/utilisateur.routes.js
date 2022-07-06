@@ -6,6 +6,7 @@ const admin = require('../middleware/admin');
 
 router.get("/utilisateur",auth , utilisateurController.afficherUtilisateurs);
 router.get("/utilisateur/monprofil",auth , utilisateurController.monProfil);
+router.get("/utilisateur/role",auth , utilisateurController.getRole);
 router.get("/utilisateur/abonnement",auth , utilisateurController.monAbonnement);
 router.get("/utilisateur/abonne",auth , utilisateurController.monAbonne);
 router.get("/utilisateur/abonnementnoe",auth , utilisateurController.monAbonnementNoe);
@@ -19,10 +20,12 @@ router.post("/deconnexion", auth, utilisateurController.Logout);
 router.delete("/utilisateur/delete", auth, utilisateurController.suppresion);
 router.delete("/utilisateur/:id",auth , utilisateurController.deleteUtilisateurById);
 router.patch("/utilisateur/update", auth, utilisateurController.updateUtilisateur);
+
 router.patch("/utilisateur/follow/:id", auth, utilisateurController.followUser);
 
 router.get("/utilisateur/:id/ressources",auth, utilisateurController.toutesRessourcesDeUtilisateur);
 router.patch("utilisateur/:id/switch", auth, utilisateurController.switchCompteUtilisateur);
+router.patch("/utilisateur/:id", auth, utilisateurController.updateUtilisateurById);
 
 
 router.post('/utilisateur/:id/image', auth, utilisateurController.avatar);
