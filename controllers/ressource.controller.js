@@ -12,13 +12,23 @@ const ajoutRessource = async (req, res) => {
     image: req.body.image,
     utilisateur: req.utilisateur._id,
   })
+
+  const utilisateur = await UtilisateurModel.findById(req.utilisateur.id)
+  const num = utilisateur.ressources.length + 1
+  for(i = 0; i< num ; i++ ){
+    if(i == (num-1)){
+      utilisateur.ressources[i] = ressource._id
+    }
+  }
   try {
+    await utilisateur.save();
     await ressource.save();
     res.status(201).send(ressource);
   } catch (e) {
     res.status(400).send(e);
   }
 };
+
 
 // Affiche tous les ressources [OK]
 const afficherRessources = async (req, res) => {
@@ -128,14 +138,13 @@ const ressourcesUtilisateur = async (req, res) => {
 const ajoutCommentaire = async (req, res) => {
   req
   const com = await new CommentaireModel({
-    
+
     utilisateur: req.utilisateur._id,
     ressource: req.params.id
   })
   const ressource = await RessourceModel.findById(req.params.id)
   const utilisateur = req.utilisateur.id
   const num = ressource.commentaires.length + 1
-  console.log(num)
   for(i = 0; i< num ; i++ ){
     if(i == (num-1)){
       ressource.commentaires[i] = com._id

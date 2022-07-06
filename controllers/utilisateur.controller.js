@@ -150,9 +150,9 @@ const avatar = async (req, res) => {
 
 // Afficher mon profil
 const monProfil = async( req, res) => {
-  const ressource = await RessourceModel.find({ utilisateur: req.utilisateur._id})
-  req.utilisateur.ressources = ressource
-  res.status(200).send(req.utilisateur)
+  const utilisateur = await UtilisateurModel.findById(req.utilisateur.id)
+  .populate("ressources")
+  res.status(200).send(utilisateur)
 }
 
 //Fonction qui supprime l'utilisateur connecté
