@@ -22,7 +22,9 @@ const ajoutRessource = async (req, res) => {
 
 // Affiche tous les ressources [OK]
 const afficherRessources = async (req, res) => {
-  const ressources = await RessourceModel.find({}).populate("utilisateur");
+  const ressources = await RessourceModel.find({})
+  .populate("utilisateur")
+  .populate("commentaires")
   res.send(ressources);
 };
 
@@ -124,14 +126,26 @@ const ressourcesUtilisateur = async (req, res) => {
 
 // Ajout d'un commentaire à une ressource [OK]
 const ajoutCommentaire = async (req, res) => {
-   const ressource = await RessourceModel.findById(req.params.id)
-   const utilisateur = req.utilisateur.id
-   const commentaire = req.body
-   ressource.commentaires[Utilisateur] = req.utilisateur.id
-   ressource.commentaires[content] = req.body
-   console.log(ressource.commentaires[content])
-   console.log(ressource.commentaires[Utilisateur])
-res.status(200).send(commentaire);
+  const com = await new CommentaireModel({...req.body,
+    utilisateur: req.utilisateur._id,
+    ressource: req.params.id
+  })
+  const ressource = await RessourceModel.findById(req.params.id)
+  const utilisateur = req.utilisateur.id
+  const num = ressource.commentaires.length + 1
+  console.log(num)
+  for(i = 0; i< num ; i++ ){
+    if(i == (num-1)){
+      ressource.commentaires[i] = com._id
+    }
+  }
+  try {
+    await ressource.save();
+    await com.save();
+    res.status(201).send(ressource);
+  } catch (e) {
+    res.status(400).send(e);
+  }
 };
 
 

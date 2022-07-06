@@ -10,7 +10,7 @@ router.patch("/ressource/:id/reaction", auth, ressourceController.reactionRessou
 router.patch("/ressource/:id/switch", auth, ressourceController.switchRessource);
 router.patch("/ressource/:id", auth, ressourceController.modifierRessource);
 router.delete("/ressource/:id", auth, ressourceController.supprimerRessource);
-router.post("/ressource/:id/commentaire", auth, ressourceController.ajoutCommentaire);
+router.patch("/ressource/:id/commentaire", auth, ressourceController.ajoutCommentaire);
 
 
 module.exports = router;
