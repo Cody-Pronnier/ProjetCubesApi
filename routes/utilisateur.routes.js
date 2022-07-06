@@ -10,11 +10,14 @@ router.get("/utilisateur/abonnement",auth , utilisateurController.monAbonnement)
 router.get("/utilisateur/abonne",auth , utilisateurController.monAbonne);
 router.get("/utilisateur/abonnementnoe",auth , utilisateurController.monAbonnementNoe);
 router.get("/utilisateur/abonnenoe",auth , utilisateurController.monAbonneNoe);
+router.get("/utilisateur/abonnement/:id",auth , utilisateurController.monAbonnementNoeById);
+router.get("/utilisateur/abonne/:id",auth , utilisateurController.monAbonneNoeById);
 router.get("/utilisateur/:id",auth , utilisateurController.affichageUtilisateur);
 router.post("/utilisateur",  utilisateurController.ajoutUtilisateur);
 router.post("/connexion", utilisateurController.Login);
 router.post("/deconnexion", auth, utilisateurController.Logout);
 router.delete("/utilisateur/delete", auth, utilisateurController.suppresion);
+router.delete("/utilisateur/:id",auth , utilisateurController.deleteUtilisateurById);
 router.patch("/utilisateur/update", auth, utilisateurController.updateUtilisateur);
 router.patch("/utilisateur/follow/:id", auth, utilisateurController.followUser);
 
