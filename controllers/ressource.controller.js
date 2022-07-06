@@ -16,8 +16,8 @@ const ajoutRessource = async (req, res) => {
 
   const utilisateur = await UtilisateurModel.findById(req.utilisateur.id)
   const num = utilisateur.ressources.length + 1
-  for(i = 0; i< num ; i++ ){
-    if(i == (num-1)){
+  for (i = 0; i < num; i++) {
+    if (i == (num - 1)) {
       utilisateur.ressources[i] = ressource._id
     }
   }
@@ -34,8 +34,9 @@ const ajoutRessource = async (req, res) => {
 // Affiche tous les ressources [OK]
 const afficherRessources = async (req, res) => {
   const ressources = await RessourceModel.find({})
-  .populate({ path: "commentaires", populate: { path:"utilisateur" }})
-  .populate("utilisateur")
+    .populate({ path: "commentaires", populate: { path: "utilisateur" } })
+    .populate({ path: "commentaires", populate: { path: "reponses", populate: { path: "utilisateur" } } })
+    .populate("utilisateur")
   res.send(ressources);
 };
 
@@ -146,8 +147,8 @@ const ajoutCommentaire = async (req, res) => {
   const ressource = await RessourceModel.findById(req.params.id)
   const utilisateur = req.utilisateur.id
   const num = ressource.commentaires.length + 1
-  for(i = 0; i< num ; i++ ){
-    if(i == (num-1)){
+  for (i = 0; i < num; i++) {
+    if (i == (num - 1)) {
       ressource.commentaires[i] = com._id
     }
   }
@@ -170,8 +171,8 @@ const ajoutReponse = async (req, res) => {
   const commentaire = await CommentaireModel.findById(req.params.id)
   const utilisateur = req.utilisateur.id
   const num = commentaire.reponses.length + 1
-  for(i = 0; i< num ; i++ ){
-    if(i == (num-1)){
+  for (i = 0; i < num; i++) {
+    if (i == (num - 1)) {
       commentaire.reponses[i] = reponse._id
     }
   }
