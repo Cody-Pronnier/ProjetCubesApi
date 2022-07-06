@@ -161,6 +161,12 @@ const suppresion = async (req, res) => {
   res.send(req.utilisateur);
 };
 
+const deleteUtilisateurById = async (req, res) =>{
+  const utilisateur = await UtilisateurModel.findById(req.params.id);
+  await utilisateur.remove();
+  res.status(200).send(utilisateur);
+};
+
 //FOnction pour mettre à jouer les 4 données d'un utilisateur
 const updateUtilisateur = async (req, res) => {
   const updates = Object.keys(req.body)
@@ -213,6 +219,26 @@ tab[i] = abo[i].utilisateur
   res.status(200).send(abo)
 }
 
+// Fonction pour afficher les abonnés avec un idUser
+const monAbonneNoeById = async( req, res) => {
+  const abo = await AbonnementModel.find({ utilisateur: req.params.id}, '-_id -utilisateur -__v')
+  .populate('abonnement')
+  res.status(200).send(abo)
+}
+// Fonction pour afficher les abonnés avec un idUser
+
+const monAbonnementNoeById = async( req, res) => {
+  const abo = await AbonnementModel.find({ abonnement: req.params.id })
+  .populate('utilisateur')
+  var tab = new Array();
+  for(i = 0; i<abo.length; i++){
+tab[i] = abo[i].utilisateur
+  }
+  res.status(200).send(abo)
+}
+
+
+
 // Fonction pour afficher les données d'un utilisateur
 const affichageUtilisateur = async(req, res) => {
   const utilisateur = await UtilisateurModel.findById(req.params.id)
@@ -230,6 +256,7 @@ module.exports = {
   switchCompteUtilisateur,
   avatar,
   suppresion,
+  deleteUtilisateurById,
   updateUtilisateur,
   followUser,
   affichageUtilisateur,
@@ -237,5 +264,7 @@ module.exports = {
   monAbonnement,
   monAbonne,
   monAbonneNoe,
-  monAbonnementNoe
+  monAbonnementNoe,
+  monAbonnementNoeById,
+  monAbonneNoeById
 };
