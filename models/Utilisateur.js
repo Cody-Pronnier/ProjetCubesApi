@@ -141,8 +141,6 @@ utilisateurSchema.statics.findByCredentials = async (mail, mot_de_passe) => {
 utilisateurSchema.pre('remove', async function (next) {
   const utilisateur = this;
   await Ressource.deleteMany({ utilisateur: utilisateur._id });
-  await Commentaire.deleteMany({ utilisateur: utilisateur._id });
-  await Reponse.deleteMany({ utilisateur: utilisateur._id });
   next();
 });
 
