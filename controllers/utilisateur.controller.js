@@ -288,6 +288,16 @@ const signalement = async (req, res) => {
   }
 }
 
+const listeSignalement = async (req, res) => {
+  const listesignalement = await SignalementModel.find()
+  if(!signalement){
+    res.send('Aucun signalement à ce jour')
+  } else {
+    res.send(listesignalement);
+  }
+  
+}
+
 
 module.exports = {
   afficherUtilisateurs,
