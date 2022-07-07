@@ -4,6 +4,7 @@ const utilisateurController = require('../controllers/utilisateur.controller');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 
+//routes GET
 router.get("/utilisateur",auth , utilisateurController.afficherUtilisateurs);
 router.get("/utilisateur/monprofil",auth , utilisateurController.monProfil);
 router.get("/utilisateur/role",auth , utilisateurController.getRole);
@@ -14,22 +15,23 @@ router.get("/utilisateur/abonnenoe",auth , utilisateurController.monAbonneNoe);
 router.get("/utilisateur/abonnement/:id",auth , utilisateurController.monAbonnementNoeById);
 router.get("/utilisateur/abonne/:id",auth , utilisateurController.monAbonneNoeById);
 router.get("/utilisateur/:id",auth , utilisateurController.affichageUtilisateur);
+router.get("/utilisateur/:id/ressources",auth, utilisateurController.toutesRessourcesDeUtilisateur);
+//routes POST
+router.post("/utilisateur/signalement/:id",  utilisateurController.signalement);
 router.post("/utilisateur",  utilisateurController.ajoutUtilisateur);
 router.post("/connexion", utilisateurController.Login);
 router.post("/deconnexion", auth, utilisateurController.Logout);
-router.delete("/utilisateur/delete", auth, utilisateurController.suppresion);
-router.delete("/utilisateur/:id",auth , utilisateurController.deleteUtilisateurById);
+router.post('/utilisateur/:id/image', auth, utilisateurController.avatar);
+router.post("/inscription", utilisateurController.ajoutUtilisateurInscription);
+//routes PATCH
 router.patch("/utilisateur/update", auth, utilisateurController.updateUtilisateur);
-
 router.patch("/utilisateur/follow/:id", auth, utilisateurController.followUser);
 
 router.get("/utilisateur/:id/ressources",auth, utilisateurController.toutesRessourcesDeUtilisateur);
 router.patch("/utilisateur/:id/switch", auth, utilisateurController.switchCompteUtilisateur);
 router.patch("/utilisateur/:id", auth, utilisateurController.updateUtilisateurById);
-
-
-router.post('/utilisateur/:id/image', auth, utilisateurController.avatar);
-
-router.post("/inscription", utilisateurController.ajoutUtilisateurInscription);
+//routes DELETE
+router.delete("/utilisateur/delete", auth, utilisateurController.suppresion);
+router.delete("/utilisateur/:id",auth , utilisateurController.deleteUtilisateurById);
 
 module.exports = router;
