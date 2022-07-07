@@ -1,12 +1,13 @@
 const UtilisateurModel = require('../models/Utilisateur')
 const RessourceModel = require("../models/Ressource");
 const AbonnementModel = require("../models/Abonnement");
+const SignalementModel = require("../models/Signalement");
 
 
 // Affiche tous les utilisateurs
 const afficherUtilisateurs = async (req, res) => {
   const users = await UtilisateurModel.find({})
-  .populate({ path: "role" })
+    .populate({ path: "role" })
   res.send(users);
 };
 
@@ -92,19 +93,19 @@ const switchCompteUtilisateur = async (req, res) => {
 //Fonction pour follow/unfollow un utilisateur
 const followUser = async (req, res) => {
   const utilisateur = await UtilisateurModel.findById(
-   req.params.id
-)
+    req.params.id
+  )
   if (!utilisateur) {
     res.status(404).send("Cet utilisateur n'existe pas.");
   } else {
     var idexistant = await AbonnementModel.find({ utilisateur: utilisateur._id, abonnement: req.utilisateur._id });
     if (idexistant == null || idexistant == '') {
-      const follow = new AbonnementModel({ utilisateur: utilisateur._id, abonnement:  req.utilisateur._id });
+      const follow = new AbonnementModel({ utilisateur: utilisateur._id, abonnement: req.utilisateur._id });
       await follow.save();
 
 
       // ON INCREMENTE LE NOMBRE D'ABONNE
-      utilisateur.nbdabonne ++;
+      utilisateur.nbdabonne++;
       await utilisateur.save();
 
 
@@ -114,7 +115,7 @@ const followUser = async (req, res) => {
       await abonnement.save();
 
       res.status(200).send('Follow réussi WP');
-    }else{
+    } else {
       // On delete l'existance de l'id
       const unfollow = await AbonnementModel.findByIdAndDelete(idexistant);
 
@@ -150,12 +151,12 @@ const avatar = async (req, res) => {
 }
 
 // Afficher mon profil
-const monProfil = async( req, res) => {
+const monProfil = async (req, res) => {
   const utilisateur = await UtilisateurModel.findById(req.utilisateur.id)
-  .populate("ressources")
+    .populate("ressources")
   res.status(200).send(utilisateur)
 }
-const getRole = async( req, res) => {
+const getRole = async (req, res) => {
   const utilisateur = await UtilisateurModel.findById(req.utilisateur.id)
   res.status(200).send(utilisateur.role)
 }
@@ -166,7 +167,7 @@ const suppresion = async (req, res) => {
   res.send(req.utilisateur);
 };
 
-const deleteUtilisateurById = async (req, res) =>{
+const deleteUtilisateurById = async (req, res) => {
   const utilisateur = await UtilisateurModel.findById(req.params.id);
   await utilisateur.remove();
   res.status(200).send(utilisateur);
@@ -194,7 +195,7 @@ const updateUtilisateur = async (req, res) => {
 
 const updateUtilisateurById = async (req, res) => {
   const updates = Object.keys(req.body)
-  const allowedUpdates = ['nom','prenom','pseudo', 'description', 'image', 'compte_actif', 'role']
+  const allowedUpdates = ['nom', 'prenom', 'pseudo', 'description', 'image', 'compte_actif', 'role']
   const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
   if (!isValidOperation) {
     return res.status(400).send({ error: 'Modifications invalides!' })
@@ -212,61 +213,79 @@ const updateUtilisateurById = async (req, res) => {
 };
 
 // Fonction pour afficher les abonnements
-const monAbonnement = async( req, res) => {
-  const abo = await AbonnementModel.find({ abonnement: req.utilisateur.id})
-  .populate('utilisateur')
+const monAbonnement = async (req, res) => {
+  const abo = await AbonnementModel.find({ abonnement: req.utilisateur.id })
+    .populate('utilisateur')
   res.status(200).send(abo)
 }
 
 // Fonction pour afficher les abonnements
-const monAbonne = async( req, res) => {
-  const abo = await AbonnementModel.find({ utilisateur: req.utilisateur.id})
-  .populate('abonnement')
+const monAbonne = async (req, res) => {
+  const abo = await AbonnementModel.find({ utilisateur: req.utilisateur.id })
+    .populate('abonnement')
   res.status(200).send(abo)
 }
 
 // Fonction pour afficher les abonnés
-const monAbonneNoe = async( req, res) => {
-  const abo = await AbonnementModel.find({ utilisateur: req.utilisateur.id}, '-_id -utilisateur -__v')
-  .populate('abonnement')
+const monAbonneNoe = async (req, res) => {
+  const abo = await AbonnementModel.find({ utilisateur: req.utilisateur.id }, '-_id -utilisateur -__v')
+    .populate('abonnement')
   res.status(200).send(abo)
 }
 
 // Fonction pour afficher les abonnés
-const monAbonnementNoe = async( req, res) => {
+const monAbonnementNoe = async (req, res) => {
   const abo = await AbonnementModel.find({ abonnement: req.utilisateur.id })
-  .populate('utilisateur')
+    .populate('utilisateur')
   var tab = new Array();
-  for(i = 0; i<abo.length; i++){
-tab[i] = abo[i].utilisateur
+  for (i = 0; i < abo.length; i++) {
+    tab[i] = abo[i].utilisateur
   }
   res.status(200).send(abo)
 }
 
 // Fonction pour afficher les abonnés avec un idUser
-const monAbonneNoeById = async( req, res) => {
-  const abo = await AbonnementModel.find({ utilisateur: req.params.id}, '-_id -utilisateur -__v')
-  .populate('abonnement')
+const monAbonneNoeById = async (req, res) => {
+  const abo = await AbonnementModel.find({ utilisateur: req.params.id }, '-_id -utilisateur -__v')
+    .populate('abonnement')
   res.status(200).send(abo)
 }
 // Fonction pour afficher les abonnés avec un idUser
 
-const monAbonnementNoeById = async( req, res) => {
+const monAbonnementNoeById = async (req, res) => {
   const abo = await AbonnementModel.find({ abonnement: req.params.id })
-  .populate('utilisateur')
+    .populate('utilisateur')
   var tab = new Array();
-  for(i = 0; i<abo.length; i++){
-tab[i] = abo[i].utilisateur
+  for (i = 0; i < abo.length; i++) {
+    tab[i] = abo[i].utilisateur
   }
   res.status(200).send(abo)
 }
 
 
 
-// Fonction pour afficher les données d'un utilisateur
-const affichageUtilisateur = async(req, res) => {
+// Fonction pour signaler un utilisateur
+const affichageUtilisateur = async (req, res) => {
   const utilisateur = await UtilisateurModel.findById(req.params.id)
   res.status(200).send(utilisateur);
+}
+
+const signalement = async (req, res) => {
+  const signalement = new SignalementModel({
+    description: req.body.description,
+    quisignale: req.utilisateur.id,
+    quiestsignale: req.params.id
+  });
+
+  if (!signalement) {
+    res.status(404).send("Cet utilisateur n'existe pas.");
+  }
+  try {
+    await signalement.save();
+    res.status(200).send("Signalement réussie");
+  } catch (e) {
+    res.status(400).send("Echec de sauvegarde du signalement");
+  }
 }
 
 
@@ -292,5 +311,6 @@ module.exports = {
   monAbonnementNoeById,
   monAbonneNoeById,
   updateUtilisateurById,
-  getRole
+  getRole,
+  signalement
 };
