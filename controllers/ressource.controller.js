@@ -42,22 +42,39 @@ const afficherRessources = async (req, res) => {
 
 
 // switch une ressource non valid à valid ou inversement [OK]
+// const switchRessource = async (req, res) => {
+//   const ressource = await RessourceModel.find(req.params.id, req.body);
+//   if (!ressource) {
+//     res.status(404).send("Ce ressource n'existe pas.");
+//   }
+//   try {
+//     if (ressource.validation === true) {
+//       ressource.validation = false;
+//     } else {
+//       ressource.validation = true;
+//     }
+//     await ressource.save();
+//     res.status(201).send(ressource);
+//   } catch (e) {
+//     res.status(400).send(e);
+//   }
+// };
 const switchRessource = async (req, res) => {
-  const ressource = await RessourceModel.find(req.params.id, req.body);
+  const ressource = await RessourceModel.findByIdAndUpdate(
+    req.params.id,
+    req.body
+  );
   if (!ressource) {
-    res.status(404).send("Ce ressource n'existe pas.");
+    res.status(404).send("Cette ressource n'existe pas.");
   }
-  try {
-    if (ressource.validation === true) {
-      ressource.validation = false;
-    } else {
-      ressource.validation = true;
-    }
-    await ressource.save();
-    res.status(201).send(ressource);
-  } catch (e) {
-    res.status(400).send(e);
+  if(ressource.validation === true) {
+    ressource.validation = false;
+  } else {
+    ressource.validation = true;
   }
+
+  await ressource.save();
+  res.send(ressource);
 };
 
 // Ajout ou Suppression d'un j'aime [OK]

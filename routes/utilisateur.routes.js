@@ -24,7 +24,7 @@ router.patch("/utilisateur/update", auth, utilisateurController.updateUtilisateu
 router.patch("/utilisateur/follow/:id", auth, utilisateurController.followUser);
 
 router.get("/utilisateur/:id/ressources",auth, utilisateurController.toutesRessourcesDeUtilisateur);
-router.patch("utilisateur/:id/switch", auth, utilisateurController.switchCompteUtilisateur);
+router.patch("/utilisateur/:id/switch", auth, utilisateurController.switchCompteUtilisateur);
 router.patch("/utilisateur/:id", auth, utilisateurController.updateUtilisateurById);
 
 

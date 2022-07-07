@@ -47,7 +47,7 @@ const modifierCommentaire = async (req, res) => {
   
 const supprimerCommentaire = async (req, res) => {
     const commentaire = await CommentaireModel.findByIdAndDelete(req.params.id);
-    if (!ressource) {
+    if (!commentaire) {
       res.status(404).send("Ce commentaire n'existe pas.");
     }
     res.status(200).send();
