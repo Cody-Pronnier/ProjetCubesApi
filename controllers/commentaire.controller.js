@@ -15,7 +15,10 @@ const ajoutCommentaire = async (req, res) => {
   // Affiche tous les commentaire [OK]
   
 const afficherCommentaires = async (req, res) => {
-    const commentaires = await CommentaireModel.find({});
+    const commentaires = await CommentaireModel.find({})
+    .populate("utilisateur")
+    .populate("ressource")
+    .populate({path: "reponses", populate: { path: "utilisateur" }})
     res.send(commentaires);
   };
   

@@ -5,7 +5,8 @@ const AbonnementModel = require("../models/Abonnement");
 
 // Affiche tous les utilisateurs
 const afficherUtilisateurs = async (req, res) => {
-  const users = await UtilisateurModel.find({});
+  const users = await UtilisateurModel.find({})
+  .populate({ path: "role" })
   res.send(users);
 };
 
@@ -154,6 +155,10 @@ const monProfil = async( req, res) => {
   .populate("ressources")
   res.status(200).send(utilisateur)
 }
+const getRole = async( req, res) => {
+  const utilisateur = await UtilisateurModel.findById(req.utilisateur.id)
+  res.status(200).send(utilisateur.role)
+}
 
 //Fonction qui supprime l'utilisateur connecté
 const suppresion = async (req, res) => {
@@ -181,6 +186,25 @@ const updateUtilisateur = async (req, res) => {
     console.log(req.utilisateur);
     await req.utilisateur.save()
     res.send(req.utilisateur)
+  } catch (e) {
+    res.status(400).send("Echec d'update des données")
+  }
+
+};
+
+const updateUtilisateurById = async (req, res) => {
+  const updates = Object.keys(req.body)
+  const allowedUpdates = ['nom','prenom','pseudo', 'description', 'image', 'compte_actif', 'role']
+  const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+  if (!isValidOperation) {
+    return res.status(400).send({ error: 'Modifications invalides!' })
+  }
+  try {
+    const utilisateur = await UtilisateurModel.findById(req.params.id)
+    updates.forEach((update) => utilisateur[update] = req.body[update])
+    console.log(utilisateur);
+    await utilisateur.save()
+    res.send(utilisateur)
   } catch (e) {
     res.status(400).send("Echec d'update des données")
   }
@@ -266,5 +290,7 @@ module.exports = {
   monAbonneNoe,
   monAbonnementNoe,
   monAbonnementNoeById,
-  monAbonneNoeById
+  monAbonneNoeById,
+  updateUtilisateurById,
+  getRole
 };
