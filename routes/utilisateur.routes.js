@@ -26,7 +26,9 @@ router.post("/inscription", utilisateurController.ajoutUtilisateurInscription);
 //routes PATCH
 router.patch("/utilisateur/update", auth, utilisateurController.updateUtilisateur);
 router.patch("/utilisateur/follow/:id", auth, utilisateurController.followUser);
-router.patch("utilisateur/:id/switch", auth, utilisateurController.switchCompteUtilisateur);
+
+router.get("/utilisateur/:id/ressources",auth, utilisateurController.toutesRessourcesDeUtilisateur);
+router.patch("/utilisateur/:id/switch", auth, utilisateurController.switchCompteUtilisateur);
 router.patch("/utilisateur/:id", auth, utilisateurController.updateUtilisateurById);
 //routes DELETE
 router.delete("/utilisateur/delete", auth, utilisateurController.suppresion);
